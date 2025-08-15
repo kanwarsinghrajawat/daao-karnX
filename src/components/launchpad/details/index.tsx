@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import AgentActionPanel from "./AgentActionPanel";
 import { motion, AnimatePresence } from "framer-motion";
 import { AgentDetailsPanel } from "./agentDetailsPanel";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
 interface AgentDetailsPageProps {
   agentBasicInfo: DeployedAgentStaticInfo;
@@ -24,7 +24,7 @@ const AgentDetailsPage = ({
   const [currentOnChainData, setCurrentOnChainData] =
     useState<AgentOnChainData>(agentOnChainData);
   const [activeTab, setActiveTab] = useState<"info" | "trade">("info");
-  const { address: account } = useAccount();
+  // const { address: account } = useAccount();
 
   const {
     userContributionDetails,
