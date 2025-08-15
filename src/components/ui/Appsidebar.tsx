@@ -11,7 +11,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarInput,
   SidebarInset,
   SidebarMenu,
   SidebarMenuAction,
@@ -38,7 +37,6 @@ import {
   FolderPlus,
 } from "lucide-react";
 import { Button } from "./button";
-import Image from "next/image";
 
 type IconType = React.ComponentType<{ className?: string }>;
 type NavItem = {

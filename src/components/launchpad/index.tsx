@@ -62,7 +62,7 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
 
   return (
     <div className="max-w-xs md:max-w-7xl mx-auto py-6">
-      {/* <div className="border border-form-outline py-1 w-full md:w-1/3 my-4">
+      <div className="hidden border border-form-outline py-1 w-full md:w-1/3 my-4">
         <Tabs
           value={tab}
           onValueChange={(v) => setTab(v as AvailableTabs)}
@@ -99,7 +99,7 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
             </TabsList>
           </div>
         </Tabs>
-      </div> */}
+      </div>
 
       {filtered.length === 0 && tab === "upcoming" ? (
         <AgentPlaceholder {...upcomingPlaceholder} />
