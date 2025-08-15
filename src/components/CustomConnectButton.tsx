@@ -1,4 +1,4 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export function CustomConnectButton() {
   return (
@@ -12,14 +12,19 @@ export function CustomConnectButton() {
         authenticationStatus,
         mounted,
       }) => {
-        const ready = mounted && authenticationStatus !== 'loading';
+        const ready = mounted && authenticationStatus !== "loading";
         const connected =
-          ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
+          ready &&
+          account &&
+          chain &&
+          (!authenticationStatus || authenticationStatus === "authenticated");
 
         return (
           <div
             className={`transition-opacity duration-300 ${
-              !ready ? 'opacity-0 pointer-events-none select-none' : 'opacity-100'
+              !ready
+                ? "opacity-0 pointer-events-none select-none"
+                : "opacity-100"
             }`}
           >
             {!connected ? (
@@ -39,7 +44,7 @@ export function CustomConnectButton() {
                 >
                   {chain.hasIcon && (
                     <div
-                      className="w-4 h-4 overflow-hidden bg-white mr-2"
+                      className="w-4 h-4 overflow-hidden bg-[#171717] mr-2"
                       style={{ backgroundColor: chain.iconBackground }}
                     >
                       <img
@@ -58,7 +63,11 @@ export function CustomConnectButton() {
                   className="bg-black text-white font-mono text-xs px-4 py-3 flex items-center transition-all duration-300 ease-in-out  hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span className="truncate">{account.displayName}</span>
-                  {account.displayBalance && <span className="ml-2 font-sans">• {account.displayBalance}</span>}
+                  {account.displayBalance && (
+                    <span className="ml-2 font-sans">
+                      • {account.displayBalance}
+                    </span>
+                  )}
                 </button>
               </div>
             )}

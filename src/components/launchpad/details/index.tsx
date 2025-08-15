@@ -69,13 +69,13 @@ const AgentDetailsPage = ({
 
   return (
     <div className="py-6 sm:max-w-7xl mx-6 sm:mx-auto flex flex-col lg:flex-row gap-16">
-      {/* <div className="hidden lg:block flex-1 lg:flex-[3]">
+      <div className="hidden lg:block flex-1 lg:flex-[3]">
         <AgentDetailsPanel
           agentBasicInfo={agentBasicInfo}
           agentOnChainData={currentOnChainData}
         />
-      </div> */}
-      {/* {account ? (
+      </div>
+      {account ? (
         <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
           <AgentActionPanel
             agentBasicInfo={agentBasicInfo}
@@ -87,15 +87,15 @@ const AgentDetailsPage = ({
           />
         </div>
       ) : (
-        <div className="bg-white py-6 rounded-2xl h-fit space-y-4">
+        <div className="bg-[#171717] py-6 rounded-2xl h-fit space-y-4">
           <p className="text-center text-gray-500">
             Please connect your wallet to interact with the agent.
           </p>
         </div>
-      )} */}
+      )}
 
-      <div className="">
-        <div className="flex border-t border-form-outline fixed gap-3 bottom-0 left-0 w-full bg-white z-10 p-4">
+      <div className="lg:hidden">
+        <div className="flex border-t border-form-outline fixed gap-3 bottom-0 left-0 w-full bg-[#171717] z-10 p-4">
           <button
             className={`flex-1 text-sm py-2 border border-text-primary ${activeTab === "info" ? "bg-black text-white font-semibold" : "text-text-primary"}`}
             onClick={() => setActiveTab("info")}
@@ -124,7 +124,7 @@ const AgentDetailsPage = ({
                   agentOnChainData={currentOnChainData}
                 />
               </motion.div>
-            ) : account ? (
+            ) : (
               <motion.div
                 key="trade"
                 initial={{ opacity: 0, x: 40 }}
@@ -145,12 +145,6 @@ const AgentDetailsPage = ({
                   }
                 />
               </motion.div>
-            ) : (
-              <div className="bg-white py-6 rounded-2xl h-fit space-y-4">
-                <p className="text-center text-gray-500">
-                  Please connect your wallet to interact with the agent.
-                </p>
-              </div>
             )}
           </AnimatePresence>
         </div>

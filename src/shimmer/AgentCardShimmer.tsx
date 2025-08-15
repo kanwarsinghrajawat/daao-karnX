@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Shimmer } from '@/components/ui/Shimmer';
+import { Shimmer } from "@/components/ui/Shimmer";
 
 export default function AgentCardShimmer() {
   return (
-    <div className="flex-shrink-0 w-80 bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="flex-shrink-0 w-80 bg-[#171717] rounded-lg border border-gray-200 overflow-hidden">
       {/* Agent Image */}
       <div className="relative h-48">
         <Shimmer className="w-full h-full" />

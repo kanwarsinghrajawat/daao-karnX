@@ -1,13 +1,17 @@
 "use client";
 
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shadcn/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/shadcn/components/ui/select";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
@@ -50,13 +54,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         avoidCollisions
         collisionPadding={16}
         className={clsx(
-          "flex flex-col rounded-none z-50 max-w-md w-[80vw] sm:w-[300px] border bg-white border-divider shadow-xl p-4 translate-x-0 ",
+          "flex flex-col rounded-none z-50 max-w-md w-[80vw] sm:w-[300px] border bg-[#171717] border-divider shadow-xl p-4 translate-x-0 ",
           className
         )}
       >
         <div className="flex items-center justify-between w-full">
           <div className="text-grey text-sm font-medium">Max Slippage</div>
-          <div className="relative flex items-center text-black bg-white rounded-full px-2 py-0 gap-2 w-[150px] border border-form-outline overflow-hidden">
+          <div className="relative flex items-center text-black bg-[#171717] rounded-full px-2 py-0 gap-2 w-[150px] border border-form-outline overflow-hidden">
             <motion.div
               layout
               layoutId="slippageHighlight"
@@ -91,7 +95,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
         <div className="flex items-center justify-between w-full mt-2">
           <div className="text-grey text-sm font-medium">Swap Deadline</div>
-          <div className="flex items-center border border-form-outline bg-white rounded-full px-3 py-1 w-[140px] h-9 justify-center">
+          <div className="flex items-center border border-form-outline bg-[#171717] rounded-full px-3 py-1 w-[140px] h-9 justify-center">
             <Select
               value={String(deadline)}
               onValueChange={(value) => setDeadline(Number(value))}
@@ -99,7 +103,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <SelectTrigger className="bg-transparent border-none text-black h-6 focus:ring-0 focus:outline-none px-0 text-sm justify-center">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
-              <SelectContent className="bg-white text-black border cursor-pointer border-gray-700">
+              <SelectContent className="bg-[#171717] text-black border cursor-pointer border-gray-700">
                 {deadlineOptions.map((option) => (
                   <SelectItem
                     key={option.value}

@@ -1,18 +1,24 @@
-import { BalancePercentageButtonsProps } from '@/types/balancePercentage';
-import React from 'react';
-import { formatUnits } from 'viem';
-import { toast } from 'react-toastify';
+import { BalancePercentageButtonsProps } from "@/types/balancePercentage";
+import React from "react";
+import { formatUnits } from "viem";
+import { toast } from "react-toastify";
 
-const BalancePercentageButtons: React.FC<BalancePercentageButtonsProps> = ({ balance, decimals, setAmount }) => {
+const BalancePercentageButtons: React.FC<BalancePercentageButtonsProps> = ({
+  balance,
+  decimals,
+  setAmount,
+}) => {
   const handleClick = (percent: number) => {
     const value = (balance * BigInt(percent)) / BigInt(100);
     const formatted = formatUnits(value, decimals);
     // Enforce non-zero before 6 decimals
-    const [, decimal] = formatted.split('.');
+    const [, decimal] = formatted.split(".");
     if (decimal) {
       const firstNonZero = decimal.search(/[1-9]/);
       if (firstNonZero > 5) {
-        toast.error('First non-zero digit must be within the first 6 decimal places.');
+        toast.error(
+          "First non-zero digit must be within the first 6 decimal places."
+        );
         return;
       }
     }
@@ -27,10 +33,10 @@ const BalancePercentageButtons: React.FC<BalancePercentageButtonsProps> = ({ bal
         <button
           key={percent}
           type="button"
-          className="text-xs text-text-primary border border-text-primary bg-white text-black font-mono px-2 py-0.5 hover:bg-black hover:text-white"
+          className="text-xs text-text-primary border border-text-primary bg-[#171717] text-black font-mono px-2 py-0.5 hover:bg-black hover:text-white"
           onClick={() => handleClick(percent)}
         >
-          {percent === 100 ? 'Max' : `${percent}%`}
+          {percent === 100 ? "Max" : `${percent}%`}
         </button>
       ))}
     </div>

@@ -4,7 +4,7 @@ import SelectTokenCard from "@/components/agentActions/SelectTokenCard";
 import { fetchTokenBalance } from "@/helper/token";
 import { useDebouncedCallback } from "@/hooks/useDebounce";
 import { useSwap } from "@/hooks/useSwap";
-import { Button } from "../ui/button";
+import { Button } from "@/shadcn/components/ui/button";
 import { AgentOnChainData, DeployedAgentStaticInfo } from "@/types/agent";
 import { Token } from "@/types/tokens";
 import { getDeadline } from "@/utils/deadline";
@@ -157,9 +157,12 @@ export default function SwapModal({
     BigInt(parseUnits(destAmount || "0", destToken.decimals)) <= 0n;
 
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div className=" text-white flex justify-between items-center mb-2 py-2">
-        <h3 className="font-semibold text-lg text-black">Interact with hAI</h3>
+    <div className="w-full max-w-xl mx-auto text-slate-200">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4 py-2">
+        <h3 className="font-semibold text-lg text-slate-100">
+          Interact with hAI
+        </h3>
         <div className="flex justify-end">
           <SettingsModal
             slippage={slippagePercent}
@@ -171,7 +174,11 @@ export default function SwapModal({
               setSettings((prev) => ({ ...prev, deadline }));
             }}
             trigger={
-              <Button variant="ghost" size="icon">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-[#1f1f1f]"
+              >
                 <Image
                   src="/gear-icon.svg"
                   width={20}
@@ -185,7 +192,8 @@ export default function SwapModal({
         </div>
       </div>
 
-      <div className="relative">
+      {/* From Card */}
+      <div className="bg-[#171717] rounded-t-2xl ring-1 ring-slate-800/70 overflow-hidden">
         <SelectTokenCard
           title="From"
           token={srcToken}
@@ -201,82 +209,71 @@ export default function SwapModal({
         />
       </div>
 
+      {/* Toggle */}
       <div className="relative z-10 flex items-center justify-center my-[-12px]">
         <div className="w-full flex items-center relative group">
-          {/* Left side of the line */}
-          <div className="border-t border-form-outline w-1/2" />
-
-          {/* Icon in the middle */}
+          <div className="border-t border-slate-800 w-1/2" />
           <div className="z-20 px-2">
-            <button onClick={handleToggle} aria-label="Switch tokens">
+            <button
+              onClick={handleToggle}
+              aria-label="Switch tokens"
+              className="bg-[#1f1f1f] p-2 rounded-full ring-1 ring-slate-800/70 hover:bg-[#242424] transition-colors"
+            >
               <Image
                 src="/transaction.svg"
                 alt="transaction icon"
                 width={20}
                 height={20}
-                className={`w-4 h-4 transition-all duration-300 group-hover:text-stroke-6 font-extrabold ${
-                  srcToken && !destToken
-                    ? "text-stroke-6 rotate-0 group-hover:rotate-180"
-                    : !srcToken && destToken
-                      ? "text-stroke-6 rotate-180 group-hover:rotate-0"
-                      : srcToken && destToken
-                        ? "text-grey rotate-0 group-hover:rotate-180"
-                        : "text-grey rotate-0"
+                className={`transition-transform duration-300 ${
+                  srcToken && destToken ? "rotate-0 group-hover:rotate-180" : ""
                 }`}
               />
             </button>
           </div>
-
-          {/* Right side of the line */}
-          <div className="border-t border-form-outline w-1/2" />
+          <div className="border-t border-slate-800 w-1/2" />
         </div>
       </div>
 
-      <SelectTokenCard
-        title="To"
-        token={destToken}
-        amount={destAmount}
-        setAmount={() => {}}
-        isDisabled
-        onTokenClick={() => {}}
-        balance={destBalance}
-        showPercentageButtons={false}
-        isLoading={quoteLoading}
-        showDropdown={false}
-        hideTopBorder
-      />
+      {/* To Card */}
+      <div className="bg-[#171717] rounded-b-2xl ring-1 ring-slate-800/70 overflow-hidden">
+        <SelectTokenCard
+          title="To"
+          token={destToken}
+          amount={destAmount}
+          setAmount={() => {}}
+          isDisabled
+          onTokenClick={() => {}}
+          balance={destBalance}
+          showPercentageButtons={false}
+          isLoading={quoteLoading}
+          showDropdown={false}
+          hideTopBorder
+        />
+      </div>
 
-      <div className="border-divider border p-4 mt-6 flex justify-between items-center">
-        <Text
-          type="p"
-          className="text-text-primary text-xs md:text-sm font-medium"
-        >
+      {/* Slippage Info */}
+      <div className="mt-6 p-4 bg-[#1b1b1b] rounded-xl ring-1 ring-slate-800/70 flex justify-between items-center">
+        <Text type="p" className="text-slate-300 text-sm font-medium">
           Slippage Tolerance
         </Text>
-        <Text
-          type="p"
-          className="text-text-primary text-xs md:text-sm font-medium"
-        >
+        <Text type="p" className="text-slate-100 text-sm font-medium">
           {slippagePercent}%
         </Text>
       </div>
 
+      {/* Swap Button */}
       <button
         onClick={handleSwap}
         disabled={isButtonDisabled}
         className={`
-            w-full 
-          bg-black
-            text-white 
-            text-base 
-            leading-none
-            px-6 py-4 
-            disabled:cursor-not-allowed 
-            transition-all duration-300
-            active:scale-[0.97] 
-            flex items-center justify-center mt-6
-            
-        `}
+        w-full rounded-xl
+        bg-emerald-600 hover:bg-emerald-500
+        text-white font-semibold text-base
+        px-6 py-4 mt-6
+        disabled:opacity-50 disabled:cursor-not-allowed
+        transition-all duration-300
+        active:scale-[0.97]
+      `}
       >
         {getTxnStateText(
           txnState,

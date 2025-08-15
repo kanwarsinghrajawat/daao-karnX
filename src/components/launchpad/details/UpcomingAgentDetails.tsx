@@ -15,15 +15,15 @@ const UpcomingAgentDetailsPage = ({
 
   return (
     <div className="py-6 mx-6 sm:max-w-7xl sm:mx-auto flex flex-col lg:flex-row gap-16">
-      {/* <div className="hidden lg:block flex-1 lg:flex-[3]">
+      <div className="hidden lg:block flex-1 lg:flex-[3]">
         <UpcomingAgentDetailsPanel agentBasicInfo={agentBasicInfo} />
       </div>
       <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
         <PledgeModal launchDate={agentBasicInfo.launchDate} />
-      </div> */}
+      </div>
 
-      <div className="">
-        <div className="flex border-t border-form-outline fixed gap-3 bottom-0 left-0 w-full bg-white z-10 p-4">
+      <div className="lg:hidden">
+        <div className="flex border-t border-form-outline fixed gap-3 bottom-0 left-0 w-full bg-[#171717] z-10 p-4">
           <button
             className={`flex-1 text-sm py-2 border border-text-primary ${activeTab === "info" ? "bg-black text-white font-semibold" : "text-text-primary"}`}
             onClick={() => setActiveTab("info")}

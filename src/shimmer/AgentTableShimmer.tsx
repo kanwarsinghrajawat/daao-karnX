@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Shimmer } from '@/components/ui/Shimmer';
+import { Shimmer } from "@/components/ui/Shimmer";
 
 export default function AgentTableShimmer() {
   return (
-    <div className="w-full bg-white rounded-lg border border-gray-200">
+    <div className="w-full bg-[#171717] rounded-lg border border-gray-200">
       {/* Table Header */}
       <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-100 bg-gray-50">
         <div className="text-left">
@@ -29,7 +29,10 @@ export default function AgentTableShimmer() {
 
       {/* Table Rows */}
       {Array.from({ length: 8 }).map((_, index) => (
-        <div key={index} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-100 items-center">
+        <div
+          key={index}
+          className="grid grid-cols-6 gap-4 p-4 border-b border-gray-100 items-center"
+        >
           {/* Agent Info */}
           <div className="flex items-center gap-3">
             <Shimmer className="h-10 w-10 rounded-full flex-shrink-0" />

@@ -19,7 +19,7 @@ const AgentPlaceholder: React.FC<AgentPlaceholderProps> = ({
   buttonLink,
 }) => {
   return (
-    <div className="border border-divider p-6 sm:p-12 mx-auto w-full text-center bg-white">
+    <div className="border border-divider p-6 sm:p-12 mx-auto w-full text-center bg-[#171717]">
       <div className="mb-4 flex flex-col gap-4 justify-center items-center">
         <Image
           src={image}

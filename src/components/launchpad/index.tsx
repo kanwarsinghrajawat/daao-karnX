@@ -2,6 +2,7 @@
 
 import { agentsBySlug } from "@/constants/agents";
 import { supportedChainIds } from "@/constants/chains";
+import { Tabs, TabsList, TabsTrigger } from "@/shadcn/components/ui/tabs";
 import { AgentOnChainData, AgentPhase, AgentStaticInfo } from "@/types/agent";
 import { getFormattedTimeLeft } from "@/utils/dateTime";
 import clsx from "clsx";
@@ -13,7 +14,6 @@ import { formatUnits } from "viem";
 import Text from "../ui/Text";
 import AgentPlaceholder from "../AgentPlaceholder";
 import { endedPlaceholder, upcomingPlaceholder } from "@/content";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface AgentCardProps {
   agentsOnChainDataByAddress: Record<string, AgentOnChainData | null>;
@@ -62,14 +62,17 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
 
   return (
     <div className="max-w-xs md:max-w-7xl mx-auto py-6">
-      <div className="hidden border border-form-outline py-1 w-full md:w-1/3 my-4">
+      <Text type="h3" className="text-2xl text-text-primary font-bold">
+        Launch Pad
+      </Text>
+      <div className="border border-form-outline py-1 w-full md:w-1/3 my-4">
         <Tabs
           value={tab}
           onValueChange={(v) => setTab(v as AvailableTabs)}
           className="w-full"
         >
           <div className="relative">
-            <TabsList className="grid grid-cols-3 w-full overflow-hidden bg-white">
+            <TabsList className="grid grid-cols-3 w-full overflow-hidden bg-[#171717]">
               <motion.div
                 className="absolute h-full bg-black z-0"
                 style={{
@@ -125,7 +128,7 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
                 : 0n;
               return (
                 <Link href={agentStaticInfo.link} key={agentStaticInfo.id}>
-                  <div className="border border-divider p-4 bg-white hover:shadow-lg transition duration-300 ease-in-out">
+                  <div className="border border-divider p-4 bg-[#171717] hover:shadow-lg transition duration-300 ease-in-out">
                     <div className="flex gap-4 items-start">
                       <Image
                         src={agentStaticInfo.image}

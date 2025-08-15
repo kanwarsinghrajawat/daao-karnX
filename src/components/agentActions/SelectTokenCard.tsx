@@ -1,12 +1,12 @@
 // import { Button } from '@/shadcn/components/ui/button';
-import { Token } from '@/types/tokens';
-import { truncateNumber } from '@/utils/number';
-import { ChevronDown } from 'lucide-react';
-import Image from 'next/image';
-import { formatUnits } from 'viem';
-import Text from '../ui/Text';
-import BalancePercentageButtons from '../ui/BalancePercentageButtons';
-import { toast } from 'react-toastify';
+import { Token } from "@/types/tokens";
+import { truncateNumber } from "@/utils/number";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { formatUnits } from "viem";
+import Text from "../ui/Text";
+import BalancePercentageButtons from "../ui/BalancePercentageButtons";
+import { toast } from "react-toastify";
 
 type SelectTokenCardProps = {
   title?: string;
@@ -40,8 +40,8 @@ export default function SelectTokenCard({
   return (
     <div
       className={`group border border-form-outline p-4 transition-colors 
-    ${hideTopBorder ? 'border-t-0' : ''} 
-    ${hideBottomBorder ? 'border-b-0' : ''}`}
+    ${hideTopBorder ? "border-t-0" : ""} 
+    ${hideBottomBorder ? "border-b-0" : ""}`}
     >
       <div className="flex justify-between items-center mb-3">
         <Text type="span" className="text-zinc-400 text-sm font-medium">
@@ -57,7 +57,11 @@ export default function SelectTokenCard({
        transition-all duration-200
      "
           >
-            <BalancePercentageButtons balance={balance || 0n} decimals={token?.decimals || 18} setAmount={setAmount} />
+            <BalancePercentageButtons
+              balance={balance || 0n}
+              decimals={token?.decimals || 18}
+              setAmount={setAmount}
+            />
           </div>
         )}
       </div>
@@ -76,13 +80,13 @@ export default function SelectTokenCard({
                 if (isNaN(Number(value))) return;
 
                 // Allow empty string for clearing
-                if (value === '') {
-                  setAmount('');
+                if (value === "") {
+                  setAmount("");
                   return;
                 }
 
                 // Split into whole and decimal
-                const [, decimal] = value.split('.');
+                const [, decimal] = value.split(".");
 
                 if (!decimal) {
                   setAmount(value);
@@ -94,7 +98,9 @@ export default function SelectTokenCard({
 
                 // If there is a non-zero digit and it is after the 5th index (6th decimal place), block it and show toast
                 if (firstNonZero > 5) {
-                  toast.error('First non-zero digit must be within the first 6 decimal places.');
+                  toast.error(
+                    "First non-zero digit must be within the first 6 decimal places."
+                  );
                   return;
                 }
 
@@ -102,7 +108,7 @@ export default function SelectTokenCard({
               }}
               disabled={isDisabled}
               placeholder="0"
-              className={`text-3xl font-light bg-transparent  outline-none placeholder-grey-2 w-36 ${Number(formatUnits(balance ?? 0n, token?.decimals || 18)) < Number(amount || 0) ? 'text-red-500' : 'text-black'}`}
+              className={`text-3xl font-light bg-transparent  outline-none placeholder-grey-2 w-36 ${Number(formatUnits(balance ?? 0n, token?.decimals || 18)) < Number(amount || 0) ? "text-red-500" : "text-black"}`}
             />
           )}
         </div>
@@ -111,7 +117,7 @@ export default function SelectTokenCard({
             <button
               onClick={onTokenClick}
               className={`flex items-center cursor-pointer gap-2 px-3 py-2 font-bold  w-fit bg-none text-gray-400 rounded-full border-form-outline border
-            ${token?.symbol || token?.logo ? 'bg-none' : 'bg-none'}
+            ${token?.symbol || token?.logo ? "bg-none" : "bg-none"}
        
             duration-300`}
             >
@@ -124,8 +130,12 @@ export default function SelectTokenCard({
                   className="w-5 h-5 rounded-full"
                 />
               )}
-              {token?.symbol || 'Select Token'}
-              {showDropdown ? <ChevronDown className="w-4 h-4" /> : <div className="w-2" />}
+              {token?.symbol || "Select Token"}
+              {showDropdown ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <div className="w-2" />
+              )}
             </button>
           </div>
 
@@ -136,7 +146,7 @@ export default function SelectTokenCard({
             <Text type="span" className="text-text-secondary text-xs">
               {balance !== undefined && balance !== null && token?.symbol
                 ? `Balance: ${truncateNumber(formatUnits(balance ?? 0n, token.decimals || 18))} ${token.symbol}`
-                : ''}
+                : ""}
             </Text>
           </div>
         </div>

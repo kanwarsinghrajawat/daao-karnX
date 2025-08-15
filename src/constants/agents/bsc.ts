@@ -15,16 +15,16 @@ export const bscAgents: AgentStaticInfo[] = [
     status: "deployed",
     description:
       "Descriptions of upcoming agents, ideally in three paragraph or less for both mobile and desktop so users would know what exactly this agent is going to do and how it’ll benefit them. This can be anything to marke...",
-    image: "/agents/secondToken-mobile.svg",
+    image: "/agents/image-1.png",
     tags: ["trade", "on-chain", "research"],
     link: "/agent/hai",
     socials: [{ twitter: "X" }, { website: "website" }],
     abilities: ["trade", "on-chain", "research"],
     level: 3,
     whatItDoes:
-      "This agent helps optimize liquidity within karnX Ecosystem using smart routing and reserve logic.",
+      "This agent helps optimize liquidity within Haven1 Ecosystem using smart routing and reserve logic.",
     disclaimer:
-      "This agent helps optimize liquidity within karnX Ecosystem. Always DYOR before interacting.",
+      "This agent helps optimize liquidity within Haven1 Ecosystem. Always DYOR before interacting.",
     holders: [
       { address: "0x141...b4c91", share: "18.96%" },
       { address: "0xe7af...7fba9", share: "2.98%" },
@@ -56,16 +56,16 @@ export const bscAgents: AgentStaticInfo[] = [
     status: "deployed",
     description:
       "Descriptions of upcoming agents, ideally in three paragraph or less for both mobile and desktop so users would know what exactly this agent is going to do and how it’ll benefit them. This can be anything to marke...",
-    image: "/agents/stable-max-mobile.svg",
+    image: "/agents/stable-max-mobile.png",
     tags: ["trade", "on-chain", "research"],
     link: "/agent/haven-ai",
     socials: [{ twitter: "X" }, { website: "website" }],
     abilities: ["trade", "on-chain", "research"],
     level: 3,
     whatItDoes:
-      "This agent helps optimize liquidity within karnX Ecosystem using smart routing and reserve logic.",
+      "This agent helps optimize liquidity within Haven1 Ecosystem using smart routing and reserve logic.",
     disclaimer:
-      "This agent helps optimize liquidity within karnX Ecosystem. Always DYOR before interacting.",
+      "This agent helps optimize liquidity within Haven1 Ecosystem. Always DYOR before interacting.",
     holders: [
       { address: "0x141...b4c91", share: "18.96%" },
       { address: "0xe7af...7fba9", share: "2.98%" },
@@ -97,7 +97,7 @@ export const bscAgents: AgentStaticInfo[] = [
     name: "H1 Max",
     description:
       "Hi, I'm Max and my sole purpose in life is to maximize returns on your H1 using social, ecos...",
-    image: "/agents/stable-max-mobile.svg",
+    image: "/agents/stable-max-mobile.png",
     tags: ["trade", "on-chain"],
     link: "/agent/max",
     socials: [{ twitter: "X" }, { website: "website" }],
@@ -106,7 +106,7 @@ export const bscAgents: AgentStaticInfo[] = [
     whatItDoes:
       "H1 Max manages liquidity for stable pairs. It deploys USDC/USDT into yield positions based on AI triggers.",
     disclaimer:
-      "hAgents are autonomous tools developed by Arcane Labs. They are not financial advice. Use at your own risk.  karnX, Arcane Labs, and associated creators assume no responsibility or liability for any actions or outcomes.",
+      "hAgents are autonomous tools developed by Arcane Labs. They are not financial advice. Use at your own risk.  Haven1, Arcane Labs, and associated creators assume no responsibility or liability for any actions or outcomes.",
     holders: [
       { address: "0x111...aaaa", share: "21%" },
       { address: "0xbbb...cccc", share: "3.1%" },
@@ -122,8 +122,8 @@ export const bscAgents: AgentStaticInfo[] = [
     chainId: supportedChainIds.bsc,
     id: "kronos",
     name: "Agent Kronos",
-    description: "Kronos will expand the karnX treasury. Launching soon...",
-    image: "/agents/secondToken-mobile.svg",
+    description: "Kronos will expand the Haven1 treasury. Launching soon...",
+    image: "/agents/image-1.png",
     tags: ["infra", "on-chain"],
     link: "/agent/kronos",
     socials: [{ twitter: "X" }, { website: "website" }],

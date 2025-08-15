@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ModalWrapper } from "../ui/ModalWrapper";
 import Text from "../ui/Text";
-import { Button } from "../ui/button";
+import { Button } from "@/shadcn/components/ui/button";
 import DynamicLogo from "../ui/logo/DynamicLogo";
 import { tokenSelectorContent } from "@/content/tokenSelector";
 import clsx from "clsx";
@@ -76,7 +76,7 @@ export default function TokenSelectionModal({
       className="text-black w-full !max-w-md max-h-[75vh] md:max-h-[90vh] p-4"
     >
       <div className="w-full my-12">
-        <div className="bg-white border border-stroke-2 rounded-lg w-full max-w-md max-h-[75vh] md:max-h-[90vh]my-12">
+        <div className="bg-[#171717] border border-stroke-2 rounded-lg w-full max-w-md max-h-[75vh] md:max-h-[90vh]my-12">
           <div className="p-4 flex justify-between items-center">
             <Text type="h2" className="text-xl text-black font-semibold">
               {tokenSelectorContent.selectToken}

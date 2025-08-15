@@ -14,14 +14,25 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="border-b border-form-outline  bg-white px-6 py-2 md:py-3 z-50  relative shadow-sm sm:max-w-7xl mx-6 sm:mx-auto">
+    <header className="bg-[#171717] px-6 py-2 md:py-3 z-50  relative shadow-sm sm:max-w-7xl mt-6 mx-6 sm:mx-auto">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center">
+          <Link href="/">
+            <Image
+              src="/appLogo.svg"
+              alt="Logo"
+              width={80}
+              height={80}
+              className="object-contain"
+            />
+          </Link>
+        </div>
         <nav className="hidden md:flex space-x-6 text-sm font-mono">
           {navLinks.map(({ name, href }) => (
             <div key={href} className="relative flex flex-col items-center">
               <Link
                 href={href}
-                className={`transition-colors font-mono text-xs ${pathname === href ? "text-black" : "text-black"} hover:text-black`}
+                className={`transition-colors font-mono text-xs ${pathname === href ? "text-white" : "text-white"} hover:text-white`}
               >
                 {name}
               </Link>
@@ -53,7 +64,7 @@ export default function Header() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-white shadow-md p-6 md:hidden"
+            className="fixed inset-0 z-50 bg-[#171717] shadow-md p-6 md:hidden"
           >
             <div className="flex justify-between items-center mb-6">
               <Image src="/appLogo.svg" alt="Logo" width={60} height={60} />

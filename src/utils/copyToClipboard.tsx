@@ -1,13 +1,8 @@
-"use client";
-import { Copy, Check } from "lucide-react";
-import clsx from "clsx";
-import { useState, useRef, useEffect } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+'use client';
+import { Copy, Check } from 'lucide-react';
+import clsx from 'clsx';
+import { useState, useRef, useEffect } from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/components/ui/tooltip';
 
 const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text);
@@ -16,7 +11,7 @@ const copyToClipboard = (text: string) => {
 interface ClickToCopyProps {
   copyText: string;
   className?: string;
-  size?: "xs" | "sm" | "md";
+  size?: 'xs' | 'sm' | 'md';
 }
 
 const sizeMap = {
@@ -25,11 +20,7 @@ const sizeMap = {
   md: 32,
 };
 
-const ClickToCopy: React.FC<ClickToCopyProps> = ({
-  copyText,
-  className,
-  size = "xs",
-}) => {
+const ClickToCopy: React.FC<ClickToCopyProps> = ({ copyText, className, size = 'xs' }) => {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
@@ -54,10 +45,7 @@ const ClickToCopy: React.FC<ClickToCopyProps> = ({
     <TooltipProvider>
       <Tooltip open={copied}>
         <TooltipTrigger asChild>
-          <div
-            className={clsx("cursor-pointer flex items-center", className)}
-            onClick={handleCopyClick}
-          >
+          <div className={clsx('cursor-pointer flex items-center', className)} onClick={handleCopyClick}>
             {copied ? (
               <Check size={sizeMap[size]} className="text-green-500" />
             ) : (

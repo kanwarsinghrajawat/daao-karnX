@@ -1,11 +1,15 @@
-'use client';
-import ClaimTokensModal from '@/components/agentActions/ClaimTokensModal';
-import FundraisingModal from '@/components/agentActions/FundraisingModal';
-import { AgentActionModalShimmer } from '@/components/agentActions/ModalShimmers';
-import RedeemModal from '@/components/agentActions/RedeemModal';
-import SwapModal from '@/components/agentActions/SwapModal';
-import { AgentOnChainData, AgentPhase, DeployedAgentStaticInfo } from '@/types/agent';
-import { UserContributionDetails } from '@/types/user';
+"use client";
+import ClaimTokensModal from "@/components/agentActions/ClaimTokensModal";
+import FundraisingModal from "@/components/agentActions/FundraisingModal";
+import { AgentActionModalShimmer } from "@/components/agentActions/ModalShimmers";
+import RedeemModal from "@/components/agentActions/RedeemModal";
+import SwapModal from "@/components/agentActions/SwapModal";
+import {
+  AgentOnChainData,
+  AgentPhase,
+  DeployedAgentStaticInfo,
+} from "@/types/agent";
+import { UserContributionDetails } from "@/types/user";
 
 interface AgentClaimPanelProps {
   agentBasicInfo: DeployedAgentStaticInfo;
@@ -24,17 +28,21 @@ const AgentActionPanel = ({
   userContributionDetails,
   refreshUserContributionDetails,
 }: AgentClaimPanelProps) => {
-  const { fundraiseEndTime, isFundraiseActive, currentPhase } = agentOnChainData;
+  const { fundraiseEndTime, isFundraiseActive, currentPhase } =
+    agentOnChainData;
 
   const showFundraiseModal =
-    currentPhase === AgentPhase.Fundraising || (isFundraiseActive && new Date() < fundraiseEndTime);
+    currentPhase === AgentPhase.Fundraising ||
+    (isFundraiseActive && new Date() < fundraiseEndTime);
 
-  const showClaimModalShimmer = isContributionDetailsLoading && currentPhase !== AgentPhase.Fundraising;
+  const showClaimModalShimmer =
+    isContributionDetailsLoading && currentPhase !== AgentPhase.Fundraising;
 
   const showSwapModal =
     !isContributionDetailsLoading &&
     currentPhase === AgentPhase.Finalized &&
-    (userContributionDetails.hasClaimed || userContributionDetails.contributionAmount === 0n);
+    (userContributionDetails.hasClaimed ||
+      userContributionDetails.contributionAmount === 0n);
 
   const showClaimModal =
     !showSwapModal &&
@@ -44,10 +52,13 @@ const AgentActionPanel = ({
         userContributionDetails.tokenAllocation > 0n &&
         !userContributionDetails.hasClaimed));
 
-  const showRedeemModal = !showClaimModal && !showClaimModalShimmer && currentPhase === AgentPhase.Ended;
+  const showRedeemModal =
+    !showClaimModal &&
+    !showClaimModalShimmer &&
+    currentPhase === AgentPhase.Ended;
 
   return (
-    <div className="bg-white md:py-6 rounded-2xl h-fit space-y-4">
+    <div className="md:py-6 rounded-2xl h-fit space-y-4">
       {showFundraiseModal && (
         <FundraisingModal
           agentInfo={agentBasicInfo}

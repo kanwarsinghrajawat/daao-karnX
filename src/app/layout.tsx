@@ -2,13 +2,11 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import ProviderWrapper from "@/wagmi/ProviderWrapper";
 import Header from "@/components/Header";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/ui/Appsidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "karnDaao AI",
-  description: "A decentralized AI products platform",
+  title: "Dao KarnX AI",
+  description: "A decentralized AI agent platform",
 };
 
 export default function RootLayout({
@@ -34,15 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <SidebarProvider>
-          <AppSidebar />
-
-          <ToastContainer />
-          <ProviderWrapper>
-            <Header />
-            {children}
-          </ProviderWrapper>
-        </SidebarProvider>
+        <ToastContainer />
+        <ProviderWrapper>
+          <Header />
+          {children}
+        </ProviderWrapper>
       </body>
     </html>
   );
