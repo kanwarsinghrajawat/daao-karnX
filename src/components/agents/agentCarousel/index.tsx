@@ -11,7 +11,7 @@ type AgentCarouselProps = {
 
 const AgentCarousel = ({ agents }: AgentCarouselProps) => {
   return (
-    <div className="py-6 max-w-sm md:max-w-7xl md:mx-auto mx-6">
+    <div className="py-6 max-w-sm md:max-w-7xl md:mx-auto mx-auto">
       <ProductShowcase
         trending={[
           {

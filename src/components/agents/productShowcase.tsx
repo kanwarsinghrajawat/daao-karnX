@@ -100,41 +100,68 @@ const ProductShowcase: React.FC<Props> = ({
       </section>
 
       {/* Spotlight */}
-      <section className="relative overflow-hidden bg-[#141414] rounded-2xl ring-1 ring-slate-800/70 p-6 text-slate-200">
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#141414] to-transparent" />
+      <section
+        className="relative overflow-hidden rounded-2xl
+  bg-[#141414] ring-1 ring-slate-800/70 p-6 text-slate-200
+  shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+      >
+        {/* soft orange vignette + bottom fade */}
+        <div
+          className="pointer-events-none absolute inset-0
+    bg-[radial-gradient(1200px_400px_at_80%_-10%,rgba(251,146,60,0.08),transparent)]
+  "
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28
+    bg-gradient-to-t from-[#141414] to-transparent"
+        />
 
+        {/* header row */}
         <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 min-w-0">
             <Image
               src={spotlight.avatar}
               alt={spotlight.name}
               width={64}
               height={64}
-              className="rounded-full ring-1 ring-slate-700"
+              className="rounded-xl ring-1 ring-slate-700/70"
             />
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-semibold">{spotlight.name}</h3>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-lg font-semibold tracking-tight truncate">
+                  {spotlight.name}
+                </h3>
                 {spotlight.badge && (
-                  <span className="text-xs bg-[#1f3b33] text-emerald-300 px-2 py-0.5 rounded-md">
+                  <span
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md
+              bg-[#1a1a1a] ring-1 ring-slate-800/70 text-[11px] text-slate-200"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400/80" />{" "}
                     {spotlight.badge}
                   </span>
                 )}
               </div>
+              <div className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">
+                {spotlight.category}
+              </div>
             </div>
           </div>
 
+          {/* FDV chip stack */}
           <div className="text-right">
-            <div className="text-slate-400 text-xs uppercase tracking-wide">
+            <div className="text-[11px] uppercase tracking-wide text-slate-400">
               FDV
             </div>
-            <div className="font-mono text-lg">{spotlight.fdv}</div>
+            <div className="font-mono text-lg text-slate-100">
+              {spotlight.fdv}
+            </div>
             <div
-              className={`font-mono ${
+              className={[
+                "font-mono text-sm",
                 spotlight.fdvChangePct >= 0
                   ? "text-emerald-400"
-                  : "text-red-400"
-              }`}
+                  : "text-red-400",
+              ].join(" ")}
             >
               {spotlight.fdvChangePct >= 0 ? "+" : ""}
               {spotlight.fdvChangePct.toFixed(2)}%
@@ -142,37 +169,41 @@ const ProductShowcase: React.FC<Props> = ({
           </div>
         </div>
 
+        {/* body */}
         <div className="mt-6 space-y-4">
-          <div>
-            <div className="text-slate-400 text-xs uppercase tracking-wide">
-              {spotlight.category}
+          {/* transactions */}
+          <div className="flex items-center justify-between">
+            <div className="text-[12px] uppercase tracking-wide text-slate-400">
+              Transactions
             </div>
-          </div>
-
-          <div className="flex items-baseline gap-2">
-            <div className="font-mono text-3xl font-semibold">
+            <div className="font-mono text-3xl font-semibold text-slate-100">
               {spotlight.transactions.toLocaleString()}
             </div>
-            <div className="text-slate-400">Transactions</div>
           </div>
 
+          {/* divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-800/70 to-transparent" />
+
+          {/* interacted with */}
           <div>
-            <div className="text-slate-400 text-sm">Interacted with</div>
-            <div className="text-slate-300">
+            <div className="text-sm text-slate-400 mb-1">Interacted with</div>
+            <div className="text-slate-300 font-mono text-[13px]">
               {spotlight.interactedWith?.length
                 ? spotlight.interactedWith.join(", ")
                 : "—"}
             </div>
           </div>
 
+          {/* description */}
           <div>
-            <div className="text-slate-400 text-sm">Description</div>
-            <p className="text-slate-300/80 leading-6 line-clamp-3">
+            <div className="text-sm text-slate-400 mb-1">Description</div>
+            <p className="text-slate-300/90 leading-6 line-clamp-3">
               {spotlight.description}
             </p>
           </div>
         </div>
       </section>
+
       <section className="rounded-2xl p-0 overflow-hidden">
         {carousel ?? (
           <div className="h-full min-h-[420px] flex items-center justify-center text-slate-400"></div>

@@ -14,7 +14,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative z-50 mt-6 mx-6 sm:mx-auto sm:max-w-7xl">
+    <header className="relative z-50 mt-6 max-w-sm mx-auto sm:max-w-7xl">
       <div className="rounded-2xl bg-[#141414] ring-1 ring-slate-800/70 shadow-sm px-4 md:px-6 py-3">
         <div className="mx-auto max-w-7xl flex items-center justify-between">
           {/* logo */}
@@ -28,43 +28,48 @@ export default function Header() {
             />
           </Link>
 
-          {/* desktop nav */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-mono">
-            {navLinks.map(({ name, href }) => {
-              const active = pathname === href;
-              return (
-                <div key={href} className="relative flex flex-col items-center">
-                  <Link
-                    href={href}
-                    className={[
-                      "transition-colors",
-                      active
-                        ? "text-slate-100"
-                        : "text-slate-300 hover:text-slate-100",
-                    ].join(" ")}
+          <div className="flex gap-8 items-center ">
+            <nav className="hidden md:flex items-center gap-6 text-sm font-mono">
+              {navLinks.map(({ name, href }) => {
+                const active = pathname === href;
+                return (
+                  <div
+                    key={href}
+                    className="relative flex flex-col items-center"
                   >
-                    {name}
-                  </Link>
-                  {active && (
-                    <motion.div
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] rounded bg-orange-400/80"
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </nav>
+                    <Link
+                      href={href}
+                      className={[
+                        "transition-colors",
+                        active
+                          ? "text-slate-100"
+                          : "text-slate-300 hover:text-slate-100",
+                      ].join(" ")}
+                    >
+                      {name}
+                    </Link>
+                    {active && (
+                      <motion.div
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1 left-0 right-0 h-[2px] rounded bg-orange-400/80"
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
 
-          {/* desktop actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <CustomConnectButton />
+            {/* desktop actions */}
+            <div className="hidden md:flex items-center gap-3">
+              <CustomConnectButton />
+            </div>
           </div>
+          {/* desktop nav */}
 
           {/* mobile menu button */}
           <button
