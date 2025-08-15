@@ -235,7 +235,6 @@ export const TopHoldersTable = ({
   holders: { address: string; share: string }[];
 }) => (
   <div>
-    <hr className="my-8 border-slate-800/70" />
     <h2 className="font-semibold text-slate-200 text-base mb-3">
       Top {holders.length} Holders
     </h2>
@@ -273,7 +272,6 @@ export const HowToParticipate = ({
   steps: { title: string; description: string }[];
 }) => (
   <div>
-    <hr className="my-8 border-slate-800/70" />
     <Text type="h2" className="font-semibold text-base text-slate-200">
       How to Participate
     </Text>
@@ -295,7 +293,7 @@ import { AlertTriangle } from "lucide-react";
 
 export const Disclaimer = () => {
   return (
-    <div className="my-8">
+    <div className="mt-8">
       <div className="flex items-start gap-3 rounded-xl bg-[#1b1b1b] ring-1 ring-slate-800/70 p-4 md:p-5">
         {/* Icon */}
         <div className="shrink-0 text-orange-400 mt-0.5">
@@ -388,8 +386,6 @@ const List = ({ items }: { items: string[] }) => (
 
 export const ProjectDetailsPanel = ({ data }: { data: ProjectDetailsData }) => (
   <div className="my-6" id="projectdetails">
-    <hr className="my-8 border-slate-800/70" />
-
     <Text type="h1" className="text-slate-200 font-bold text-base mb-4">
       Project Details
     </Text>

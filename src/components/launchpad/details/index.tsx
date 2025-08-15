@@ -75,39 +75,64 @@ const AgentDetailsPage = ({
           agentOnChainData={currentOnChainData}
         />
       </div>
-      {account ? (
-        <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
-          <AgentActionPanel
-            agentBasicInfo={agentBasicInfo}
-            agentOnChainData={currentOnChainData}
-            refreshOnChainData={refreshOnChainData}
-            userContributionDetails={userContributionDetails}
-            refreshUserContributionDetails={refreshUserContributionDetails}
-            isContributionDetailsLoading={isUserContributionDetailsLoading}
-          />
-        </div>
-      ) : (
-        <div className="bg-[#171717] py-6 rounded-2xl h-fit space-y-4">
-          <p className="text-center text-gray-500">
-            Please connect your wallet to interact with the agent.
-          </p>
-        </div>
-      )}
+
+      <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
+        <AgentActionPanel
+          agentBasicInfo={agentBasicInfo}
+          agentOnChainData={currentOnChainData}
+          refreshOnChainData={refreshOnChainData}
+          userContributionDetails={userContributionDetails}
+          refreshUserContributionDetails={refreshUserContributionDetails}
+          isContributionDetailsLoading={isUserContributionDetailsLoading}
+        />
+      </div>
 
       <div className="lg:hidden">
-        <div className="flex border-t border-form-outline fixed gap-3 bottom-0 left-0 w-full bg-[#171717] z-10 p-4">
-          <button
-            className={`flex-1 text-sm py-2 border border-text-primary ${activeTab === "info" ? "bg-black text-white font-semibold" : "text-text-primary"}`}
-            onClick={() => setActiveTab("info")}
-          >
-            Info
-          </button>
-          <button
-            className={`flex-1 text-sm py-2 border border-text-primary ${activeTab === "trade" ? "bg-black text-white font-semibold" : " text-text-primary"}`}
-            onClick={() => setActiveTab("trade")}
-          >
-            Trade
-          </button>
+        <div
+          className="
+  fixed inset-x-0 bottom-0 z-40
+  border-t border-slate-800/70
+  bg-[#141414]/90 backdrop-blur
+  px-4 py-3 pb-[env(safe-area-inset-bottom)]
+"
+        >
+          <div className="max-w-7xl mx-auto">
+            <div
+              role="tablist"
+              aria-label="Agent actions"
+              className="relative isolate inline-flex w-full rounded-xl ring-1 ring-slate-800/70 bg-[#1a1a1a] p-1"
+            >
+              {/* moving highlight */}
+              <motion.div
+                layoutId="seg-pill"
+                transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                className={`absolute inset-y-1 rounded-lg bg-[#2a2a2a] ring-1 ring-slate-700/60
+          ${activeTab === "info" ? "left-1 right-1/2" : "left-1/2 right-1"}`}
+              />
+
+              {/* Info */}
+              <button
+                onClick={() => setActiveTab("info")}
+                className={`relative z-10 flex-1 px-4 py-2 rounded-lg text-sm font-mono transition-colors
+          ${activeTab === "info" ? "text-slate-100" : "text-slate-300 hover:text-slate-100"}`}
+                aria-selected={activeTab === "info"}
+                role="tab"
+              >
+                Info
+              </button>
+
+              {/* Trade */}
+              <button
+                onClick={() => setActiveTab("trade")}
+                className={`relative z-10 flex-1 px-4 py-2 rounded-lg text-sm font-mono transition-colors
+          ${activeTab === "trade" ? "text-slate-100" : "text-slate-300 hover:text-slate-100"}`}
+                aria-selected={activeTab === "trade"}
+                role="tab"
+              >
+                Trade
+              </button>
+            </div>
+          </div>
         </div>
         <div className="md:pt-4 pb-16">
           <AnimatePresence mode="wait">

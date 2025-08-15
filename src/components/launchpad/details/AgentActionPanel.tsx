@@ -4,6 +4,7 @@ import FundraisingModal from "@/components/agentActions/FundraisingModal";
 import { AgentActionModalShimmer } from "@/components/agentActions/ModalShimmers";
 import RedeemModal from "@/components/agentActions/RedeemModal";
 import SwapModal from "@/components/agentActions/SwapModal";
+import { CustomConnectButton } from "@/components/CustomConnectButton";
 import {
   AgentOnChainData,
   AgentPhase,
@@ -66,7 +67,13 @@ const AgentActionPanel = ({
           refreshOnChainData={refreshOnChainData}
         />
       )}
-      {showClaimModalShimmer && <AgentActionModalShimmer />}
+      {showClaimModalShimmer && (
+        <div className="flex flex-col gap-4">
+          <AgentActionModalShimmer />
+
+          <CustomConnectButton />
+        </div>
+      )}
 
       {showClaimModal && (
         <ClaimTokensModal

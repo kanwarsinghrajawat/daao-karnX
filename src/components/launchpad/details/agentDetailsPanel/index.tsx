@@ -108,7 +108,7 @@ const VariantOne = ({
             id: "1",
             handle: "@0xFUDbuster",
             role: "Dev",
-            avatar: "/team/fud.png",
+            avatar: "/image-6.png",
             highlight: true,
             socials: {
               twitter: "https://x.com/...",
@@ -120,7 +120,7 @@ const VariantOne = ({
             id: "2",
             handle: "@0xMamoru",
             role: "CEO",
-            avatar: "/team/mamoru.jpg",
+            avatar: "/image-5.png",
             socials: {
               twitter: "https://x.com/...",
               telegram: "https://t.me/...",
@@ -130,7 +130,7 @@ const VariantOne = ({
             id: "3",
             handle: "@Thecaveweb3",
             role: "Marketing & Community",
-            avatar: "/team/cave.png",
+            avatar: "/image-1.png",
             socials: { twitter: "https://x.com/..." },
           },
         ]}
@@ -193,7 +193,7 @@ const VariantTwo = ({
             id: "1",
             handle: "@0xFUDbuster",
             role: "Dev",
-            avatar: "/team/fud.png",
+            avatar: "/image-6.png",
             highlight: true,
             socials: {
               twitter: "https://x.com/...",
@@ -205,7 +205,7 @@ const VariantTwo = ({
             id: "2",
             handle: "@0xMamoru",
             role: "CEO",
-            avatar: "/team/mamoru.jpg",
+            avatar: "/image-5.png",
             socials: {
               twitter: "https://x.com/...",
               telegram: "https://t.me/...",
@@ -215,7 +215,7 @@ const VariantTwo = ({
             id: "3",
             handle: "@Thecaveweb3",
             role: "Marketing & Community",
-            avatar: "/team/cave.png",
+            avatar: "/image-1.png",
             socials: { twitter: "https://x.com/..." },
           },
         ]}
@@ -287,7 +287,7 @@ const VariantThree = ({
             id: "1",
             handle: "@0xFUDbuster",
             role: "Dev",
-            avatar: "/team/fud.png",
+            avatar: "/image-6.png",
             highlight: true,
             socials: {
               twitter: "https://x.com/...",
@@ -299,7 +299,7 @@ const VariantThree = ({
             id: "2",
             handle: "@0xMamoru",
             role: "CEO",
-            avatar: "/team/mamoru.jpg",
+            avatar: "/image-5.png",
             socials: {
               twitter: "https://x.com/...",
               telegram: "https://t.me/...",
@@ -309,7 +309,7 @@ const VariantThree = ({
             id: "3",
             handle: "@Thecaveweb3",
             role: "Marketing & Community",
-            avatar: "/team/cave.png",
+            avatar: "/image-1.png",
             socials: { twitter: "https://x.com/..." },
           },
         ]}

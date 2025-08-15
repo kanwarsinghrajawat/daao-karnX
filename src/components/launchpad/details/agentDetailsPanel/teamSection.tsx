@@ -28,7 +28,7 @@ export default function TeamSection({
   return (
     <section className="w-full max-w-7xl mx-auto py-6 sm:py-10" id="team">
       {/* header */}
-      <div className="mb-4 sm:mb-6 px-3 sm:px-0">
+      <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-3xl font-extrabold text-slate-100">
           {title}
         </h2>
@@ -38,14 +38,14 @@ export default function TeamSection({
       </div>
 
       {/* MOBILE: compact tiles */}
-      <ul className="sm:hidden space-y-3 px-3">
+      <ul className="sm:hidden space-y-3">
         {members.map((m) => (
           <TeamTile key={m.id} member={m} />
         ))}
       </ul>
 
       {/* DESKTOP/TABLET: cards */}
-      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6 px-3 sm:px-0">
+      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6">
         {members.map((m) => (
           <TeamCard key={m.id} member={m} />
         ))}
