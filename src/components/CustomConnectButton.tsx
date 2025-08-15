@@ -6,7 +6,6 @@ export function CustomConnectButton() {
       {({
         account,
         chain,
-        //  openChainModal,
         openConnectModal,
         openAccountModal,
         authenticationStatus,
@@ -30,41 +29,19 @@ export function CustomConnectButton() {
             {!connected ? (
               <button
                 onClick={openConnectModal}
-                className="bg-black text-white text-sm px-4 py-3 font-medium transition-all duration-300 ease-in-out  hover:scale-[1.02] active:scale-[0.98]"
+                className="px-4 py-2.5 rounded-lg bg-[#141414] text-slate-200 font-mono text-sm ring-1 ring-slate-800/70 shadow-sm transition-all duration-300 hover:ring-orange-400/50 hover:shadow-[0_0_10px_rgba(251,146,60,0.15)] hover:scale-[1.02] active:scale-[0.98]"
               >
                 Connect Wallet
               </button>
             ) : (
               <div className="flex items-stretch gap-2">
-                {/* Chain Button */}
-                {/* <button
-                  onClick={openChainModal}
-                  className="flex items-center bg-black text-white text-xs px-3 py-3 font-medium transition-all duration-300 ease-in-out   hover:scale-[1.02] active:scale-[0.98]"
-                  type="button"
-                >
-                  {chain.hasIcon && (
-                    <div
-                      className="w-4 h-4 overflow-hidden bg-[#171717] mr-2"
-                      style={{ backgroundColor: chain.iconBackground }}
-                    >
-                      <img
-                        alt={chain.name ?? 'Chain icon'}
-                        src={chain.iconUrl}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  )}
-                  <span className="truncate">{chain.name}</span>
-                </button> */}
-
-                {/* Account + Balance */}
                 <button
                   onClick={openAccountModal}
-                  className="bg-black text-white font-mono text-xs px-4 py-3 flex items-center transition-all duration-300 ease-in-out  hover:scale-[1.02] active:scale-[0.98]"
+                  className="px-4 py-2.5 rounded-lg bg-[#141414] text-slate-200 font-mono text-xs ring-1 ring-slate-800/70 shadow-sm flex items-center transition-all duration-300 hover:ring-orange-400/50 hover:shadow-[0_0_10px_rgba(251,146,60,0.15)] hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span className="truncate">{account.displayName}</span>
                   {account.displayBalance && (
-                    <span className="ml-2 font-sans">
+                    <span className="ml-2 font-sans text-slate-400">
                       • {account.displayBalance}
                     </span>
                   )}

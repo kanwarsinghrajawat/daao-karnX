@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { ComponentType, SVGProps, useState } from "react";
 import { motion } from "framer-motion";
 import ProductBanner from "./ProductBanner";
+import Link from "next/link";
 
 type Props = {
   agents: {
@@ -92,15 +93,15 @@ const AgentTable = ({ agents }: Props) => {
           })}
         </div>
 
-        {/* cta */}
-        <button
+        <Link
+          href="https://forms.gle/rofCendPEAkgJs4VA"
           className="w-full md:w-auto px-4 py-2 rounded-md bg-[#2a2a2a] text-slate-200 
                ring-1 ring-slate-800/70 shadow-sm 
                hover:bg-[#333333] hover:ring-slate-700 
                transition-colors font-mono text-sm"
         >
           Create Project
-        </button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto">

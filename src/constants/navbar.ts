@@ -1,4 +1,4 @@
 export const navLinks = [
-  { name: "About", href: "/about" },
-  { name: "Whitepaper", href: "/whitepaper" },
+  // { name: "About", href: "/about" },
+  { name: "Create Project", href: "/https://forms.gle/rofCendPEAkgJs4VA" },
 ];
