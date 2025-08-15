@@ -20,11 +20,11 @@ export default function Header() {
           {/* logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/appLogo.svg"
+              src="/robo-logo.png"
               alt="Logo"
-              width={84}
-              height={84}
-              className="h-8 w-auto object-contain"
+              width={140}
+              height={140}
+              className="h-16 w-auto object-contain"
             />
           </Link>
 
@@ -45,6 +45,7 @@ export default function Header() {
                           ? "text-slate-100"
                           : "text-slate-300 hover:text-slate-100",
                       ].join(" ")}
+                      target="_blank"
                     >
                       {name}
                     </Link>
@@ -127,6 +128,7 @@ export default function Header() {
                           ? "bg-[#1b1b1b] text-slate-100 ring-1 ring-slate-800/70"
                           : "text-slate-300 hover:text-slate-100 hover:bg-[#1a1a1a]",
                       ].join(" ")}
+                      target="_blank"
                     >
                       {name}
                     </Link>

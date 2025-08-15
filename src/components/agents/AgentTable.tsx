@@ -104,6 +104,7 @@ const AgentTable = ({ agents }: Props) => {
                ring-1 ring-slate-800/70 shadow-sm 
                hover:bg-[#333333] hover:ring-slate-700 
                transition-colors font-mono text-sm"
+            target="_blank"
           >
             Create Project
           </Link>

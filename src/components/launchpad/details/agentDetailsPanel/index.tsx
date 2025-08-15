@@ -11,13 +11,16 @@ import {
   Disclaimer,
   FundingCard,
   Header,
-  HowToParticipate,
+  // HowToParticipate,
   MetaSection,
   ProjectDetailsPanel,
   Status,
   TopHoldersTable,
 } from "./sharedComponent";
-import { exampleProjectDetails, howToParticipateSteps } from "@/content";
+import {
+  exampleProjectDetails,
+  //  howToParticipateSteps
+} from "@/content";
 import TeamSection from "./teamSection";
 import ProjectNav from "./projectNav";
 
@@ -59,7 +62,7 @@ export const UpcomingAgentDetailsPanel = ({
     <div className="max-w-4xl mx-auto py-6 ">
       <Header agentBasicInfo={agentBasicInfo} previewVideo="true" />
       <Status label="Upcoming" />
-      <HowToParticipate steps={howToParticipateSteps} />
+      {/* <HowToParticipate steps={howToParticipateSteps} /> */}
       <ProjectDetailsPanel data={exampleProjectDetails} />
       {/* {agentBasicInfo.holders?.length ? (
         <TopHoldersTable holders={agentBasicInfo.holders} />
@@ -146,7 +149,7 @@ const VariantOne = ({
         agentBasicInfo={agentBasicInfo}
         agentOnChainData={agentOnChainData}
       />
-      <HowToParticipate steps={howToParticipateSteps} />
+      {/* <HowToParticipate steps={howToParticipateSteps} /> */}
       <ProjectDetailsPanel data={exampleProjectDetails} />
       <TopHoldersTable holders={agentBasicInfo.holders} />
       <Disclaimer />
@@ -231,7 +234,7 @@ const VariantTwo = ({
         agentBasicInfo={agentBasicInfo}
         agentOnChainData={agentOnChainData}
       />
-      <HowToParticipate steps={howToParticipateSteps} />
+      {/* <HowToParticipate steps={howToParticipateSteps} /> */}
       <ProjectDetailsPanel data={exampleProjectDetails} />
       <TopHoldersTable holders={agentBasicInfo.holders} />
       <Disclaimer />
@@ -326,7 +329,7 @@ const VariantThree = ({
         agentBasicInfo={agentBasicInfo}
         agentOnChainData={agentOnChainData}
       />
-      <HowToParticipate steps={howToParticipateSteps} />
+      {/* <HowToParticipate steps={howToParticipateSteps} /> */}
       <ProjectDetailsPanel data={exampleProjectDetails} />
       {/* {agentBasicInfo.holders?.length ? (
         <TopHoldersTable holders={agentBasicInfo.holders} />
