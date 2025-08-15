@@ -47,7 +47,7 @@ const ProductShowcase: React.FC<Props> = ({
         </div>
 
         <div className="space-y-3">
-          {trending.map((item, i) => (
+          {trending.map((item) => (
             <div
               key={item.id}
               className="flex items-center justify-between bg-[#1b1b1b] hover:bg-[#242424] transition-colors rounded-xl ring-1 ring-slate-800/70 px-3 py-2"

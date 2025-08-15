@@ -1,6 +1,5 @@
 import { AgentOnChainData, DeployedAgentStaticInfo } from "@/types/agent";
 import AgentsCarouselDesktop from "./AgentsCarouselDesktop";
-import Text from "@/components/ui/Text";
 import ProductShowcase from "../productShowcase";
 
 type AgentCarouselProps = {

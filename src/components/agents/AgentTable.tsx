@@ -7,7 +7,7 @@ import { formatNumber } from "@/utils/number";
 import { Bell, CheckCircle2, Copy, Handshake, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ComponentType, SVGProps, useState } from "react";
 import { motion } from "framer-motion";
 import ProductBanner from "./ProductBanner";
 
@@ -35,7 +35,9 @@ const AgentTable = ({ agents }: Props) => {
 
   type SegmentKey = "all" | "pledging" | "upcoming" | "succeeded" | "failed";
 
-  const segments: { key: SegmentKey; label: string; Icon?: any }[] = [
+  type IconType = ComponentType<SVGProps<SVGSVGElement>>;
+
+  const segments: { key: SegmentKey; label: string; Icon?: IconType }[] = [
     { key: "all", label: "All" },
     { key: "pledging", label: "Pledging", Icon: Handshake },
     { key: "upcoming", label: "Upcoming", Icon: Bell },
