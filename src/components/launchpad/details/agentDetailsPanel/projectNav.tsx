@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const navLinks = [
@@ -11,7 +10,6 @@ const navLinks = [
 ];
 
 export default function ProjectNav() {
-  const pathname = usePathname();
   const activeHash = typeof window !== "undefined" ? window.location.hash : "";
 
   return (

@@ -5,7 +5,6 @@ import {
   UpcomingAgentStaticInfo,
 } from "@/types/agent";
 import { getFormattedTimeLeft } from "@/utils/dateTime";
-import { formatNumber } from "@/utils/number";
 import { formatUnits } from "viem";
 import {
   // Chart,
@@ -15,8 +14,6 @@ import {
   HowToParticipate,
   MetaSection,
   ProjectDetailsPanel,
-  Stat,
-  StatItem,
   Status,
   TopHoldersTable,
 } from "./sharedComponent";
