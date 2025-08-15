@@ -65,7 +65,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
 
   return (
     <div className="relative">
-      {/* scrollable row */}
       <div
         ref={scrollRef}
         className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory px-1 pb-3 pr-5"
@@ -79,7 +78,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
              pt-6 pb-5 px-5 flex flex-col cursor-pointer flex-shrink-0
              min-w-[88%] max-w-[88%] sm:min-w-[68%] sm:max-w-[68%]"
           >
-            {/* top */}
             <div className="flex flex-row gap-5 items-start">
               <div className="w-[108px] aspect-square flex items-center justify-center rounded-xl overflow-hidden bg-[#1f1f1f] ring-1 ring-slate-800">
                 <img
@@ -88,7 +86,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <Text type="p" className="font-bold text-xl text-slate-100">
@@ -104,7 +101,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
                     height={16}
                   />
                 </div>
-
                 <Text
                   type="p"
                   className="text-sm text-slate-300/90 mt-2 leading-relaxed line-clamp-3"
@@ -113,8 +109,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
                 </Text>
               </div>
             </div>
-
-            {/* stats */}
             <div className="grid grid-cols-3 gap-2 mt-6 mb-5 text-center border-b border-slate-800/80 pb-5">
               <div>
                 <Text
@@ -150,8 +144,6 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
                 </Text>
               </div>
             </div>
-
-            {/* meta */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Text type="p" className="text-xs text-slate-300">
@@ -198,9 +190,8 @@ const AgentsCarousel = ({ agents }: AgentCarouselProps) => {
         ))}
       </div>
 
-      {/* edge fades to hide harsh ends */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#0f0f0f] to-transparent rounded-l-2xl" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#0f0f0f] to-transparent rounded-r-2xl" />
+      {/* <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#0f0f0f] to-transparent rounded-l-2xl" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#0f0f0f] to-transparent rounded-r-2xl" /> */}
 
       {/* scroll buttons */}
       {canScroll.left && (

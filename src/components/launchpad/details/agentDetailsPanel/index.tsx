@@ -8,7 +8,7 @@ import { getFormattedTimeLeft } from "@/utils/dateTime";
 import { formatNumber } from "@/utils/number";
 import { formatUnits } from "viem";
 import {
-  Chart,
+  // Chart,
   Disclaimer,
   FundingCard,
   Header,
@@ -16,10 +16,13 @@ import {
   MetaSection,
   ProjectDetailsPanel,
   Stat,
+  StatItem,
   Status,
   TopHoldersTable,
 } from "./sharedComponent";
 import { exampleProjectDetails, howToParticipateSteps } from "@/content";
+import TeamSection from "./teamSection";
+import ProjectNav from "./projectNav";
 
 export const AgentDetailsPanel = ({
   agentBasicInfo,
@@ -57,14 +60,14 @@ export const UpcomingAgentDetailsPanel = ({
 }) => {
   return (
     <div className="max-w-4xl mx-auto py-6 ">
-      <Header agentBasicInfo={agentBasicInfo} />
+      <Header agentBasicInfo={agentBasicInfo} previewVideo="true" />
       <Status label="Upcoming" />
       <HowToParticipate steps={howToParticipateSteps} />
       <ProjectDetailsPanel data={exampleProjectDetails} />
-      {agentBasicInfo.holders?.length ? (
+      {/* {agentBasicInfo.holders?.length ? (
         <TopHoldersTable holders={agentBasicInfo.holders} />
-      ) : null}
-      <Disclaimer agentBasicInfo={agentBasicInfo} />
+      ) : null} */}
+      <Disclaimer />
     </div>
   );
 };
@@ -97,7 +100,42 @@ const VariantOne = ({
 
   return (
     <div className="w-full py-6 ">
-      <Header agentBasicInfo={agentBasicInfo} />
+      <Header agentBasicInfo={agentBasicInfo} previewVideo="true" />
+      <ProjectNav />
+      <TeamSection
+        members={[
+          {
+            id: "1",
+            handle: "@0xFUDbuster",
+            role: "Dev",
+            avatar: "/team/fud.png",
+            highlight: true,
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+              github: "https://github.com/...",
+            },
+          },
+          {
+            id: "2",
+            handle: "@0xMamoru",
+            role: "CEO",
+            avatar: "/team/mamoru.jpg",
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+            },
+          },
+          {
+            id: "3",
+            handle: "@Thecaveweb3",
+            role: "Marketing & Community",
+            avatar: "/team/cave.png",
+            socials: { twitter: "https://x.com/..." },
+          },
+        ]}
+      />
+
       <Status label="Live" />
       <FundingCard
         raised={raised}
@@ -114,7 +152,7 @@ const VariantOne = ({
       <HowToParticipate steps={howToParticipateSteps} />
       <ProjectDetailsPanel data={exampleProjectDetails} />
       <TopHoldersTable holders={agentBasicInfo.holders} />
-      <Disclaimer agentBasicInfo={agentBasicInfo} />
+      <Disclaimer />
     </div>
   );
 };
@@ -146,7 +184,43 @@ const VariantTwo = ({
   );
   return (
     <div className="max-w-4xl mx-auto py-6 ">
-      <Header agentBasicInfo={agentBasicInfo} />
+      <Header agentBasicInfo={agentBasicInfo} previewVideo="true" />
+      <ProjectNav />
+
+      <TeamSection
+        members={[
+          {
+            id: "1",
+            handle: "@0xFUDbuster",
+            role: "Dev",
+            avatar: "/team/fud.png",
+            highlight: true,
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+              github: "https://github.com/...",
+            },
+          },
+          {
+            id: "2",
+            handle: "@0xMamoru",
+            role: "CEO",
+            avatar: "/team/mamoru.jpg",
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+            },
+          },
+          {
+            id: "3",
+            handle: "@Thecaveweb3",
+            role: "Marketing & Community",
+            avatar: "/team/cave.png",
+            socials: { twitter: "https://x.com/..." },
+          },
+        ]}
+      />
+
       <Status label="Campaign Ended" />
       <FundingCard
         raised={raised}
@@ -163,7 +237,7 @@ const VariantTwo = ({
       <HowToParticipate steps={howToParticipateSteps} />
       <ProjectDetailsPanel data={exampleProjectDetails} />
       <TopHoldersTable holders={agentBasicInfo.holders} />
-      <Disclaimer agentBasicInfo={agentBasicInfo} />
+      <Disclaimer />
     </div>
   );
 };
@@ -196,25 +270,51 @@ const VariantThree = ({
 
   return (
     <div className="max-w-5xl mx-auto md:py-8 ">
-      <Header agentBasicInfo={agentBasicInfo} />
-      <div className="grid grid-cols-4 gap-2 md:gap-4 text-center text-sm font-medium my-8">
-        <Stat
-          label="Market Cap"
-          value={`$${formatNumber(agentBasicInfo.marketData.marketCap)}`}
-        />
-        <Stat
-          label="TVL"
-          value={`$${formatNumber(agentBasicInfo.marketData.tvl)}`}
-        />
-        <Stat
-          label="Volume"
-          value={`$${formatNumber(agentBasicInfo.marketData.volume)}`}
-        />
-        <Stat
-          label="Holders"
-          value={formatNumber(agentBasicInfo.holders.length)}
-        />
-      </div>
+      <Header
+        agentBasicInfo={agentBasicInfo}
+        previewVideo="true"
+        marketStats={{
+          marketCap: agentBasicInfo.marketData.marketCap,
+          tvl: agentBasicInfo.marketData.tvl,
+          volume: agentBasicInfo.marketData.volume,
+        }}
+      />
+      <ProjectNav />
+
+      <TeamSection
+        members={[
+          {
+            id: "1",
+            handle: "@0xFUDbuster",
+            role: "Dev",
+            avatar: "/team/fud.png",
+            highlight: true,
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+              github: "https://github.com/...",
+            },
+          },
+          {
+            id: "2",
+            handle: "@0xMamoru",
+            role: "CEO",
+            avatar: "/team/mamoru.jpg",
+            socials: {
+              twitter: "https://x.com/...",
+              telegram: "https://t.me/...",
+            },
+          },
+          {
+            id: "3",
+            handle: "@Thecaveweb3",
+            role: "Marketing & Community",
+            avatar: "/team/cave.png",
+            socials: { twitter: "https://x.com/..." },
+          },
+        ]}
+      />
+
       <Status label="live" />
       <FundingCard
         raised={raised}
@@ -224,17 +324,17 @@ const VariantThree = ({
         participants={Number(agentOnChainData.contributors)}
         timeLeft={formattedTimeLeft}
       />
-      <Chart />
+      {/* <Chart /> */}
       <MetaSection
         agentBasicInfo={agentBasicInfo}
         agentOnChainData={agentOnChainData}
       />
       <HowToParticipate steps={howToParticipateSteps} />
       <ProjectDetailsPanel data={exampleProjectDetails} />
-      {agentBasicInfo.holders?.length ? (
+      {/* {agentBasicInfo.holders?.length ? (
         <TopHoldersTable holders={agentBasicInfo.holders} />
-      ) : null}
-      <Disclaimer agentBasicInfo={agentBasicInfo} />
+      ) : null} */}
+      <Disclaimer />
     </div>
   );
 };

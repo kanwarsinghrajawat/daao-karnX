@@ -14,7 +14,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-[#171717] px-6 py-2 md:py-3 z-50  relative shadow-sm sm:max-w-7xl mt-6 mx-6 sm:mx-auto">
+    <header className="md:bg-[#171717] md:px-6 py-2 md:py-3 z-50  relative shadow-sm sm:max-w-7xl mt-6 mx-6 sm:mx-auto">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
@@ -53,7 +53,7 @@ export default function Header() {
           onClick={() => setMenuOpen(true)}
           className="md:hidden text-black"
         >
-          <Menu size={24} />
+          <Menu className="text-white" size={24} />
         </button>
       </div>
 

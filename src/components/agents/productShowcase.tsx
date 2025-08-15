@@ -173,9 +173,7 @@ const ProductShowcase: React.FC<Props> = ({
           </div>
         </div>
       </section>
-
-      {/* Carousel */}
-      <section className="bg-[#141414] rounded-2xl ring-1 ring-slate-800/70 p-0 overflow-hidden">
+      <section className="rounded-2xl p-0 overflow-hidden">
         {carousel ?? (
           <div className="h-full min-h-[420px] flex items-center justify-center text-slate-400"></div>
         )}
