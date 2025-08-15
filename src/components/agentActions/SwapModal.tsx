@@ -1,0 +1,288 @@
+"use client";
+
+import SelectTokenCard from "@/components/agentActions/SelectTokenCard";
+import { fetchTokenBalance } from "@/helper/token";
+import { useDebouncedCallback } from "@/hooks/useDebounce";
+import { useSwap } from "@/hooks/useSwap";
+import { Button } from "../ui/button";
+import { AgentOnChainData, DeployedAgentStaticInfo } from "@/types/agent";
+import { Token } from "@/types/tokens";
+import { getDeadline } from "@/utils/deadline";
+import { getTxnStateText } from "@/utils/txn";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { formatUnits, parseUnits } from "viem";
+import { useAccount } from "wagmi";
+import Text from "../ui/Text";
+import { SettingsModal } from "./SettingsModal";
+
+interface SwapModalProps {
+  token0: Token;
+  token1: Token;
+  agentBasicInfo: DeployedAgentStaticInfo;
+  agentOnChainData: AgentOnChainData;
+}
+
+export default function SwapModal({
+  token0,
+  token1,
+  agentBasicInfo,
+  agentOnChainData,
+}: SwapModalProps) {
+  const [srcToken, setSrcToken] = useState<Token>(token0);
+  const [destToken, setDestToken] = useState<Token>(token1);
+  const [srcAmount, setSrcAmount] = useState("");
+  const [destAmount, setDestAmount] = useState("");
+  const [srcBalance, setSrcBalance] = useState<bigint>(0n);
+  const [destBalance, setDestBalance] = useState<bigint>(0n);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+
+  const [{ slippagePercent, deadline }, setSettings] = useState({
+    slippagePercent: 3,
+    deadline: 5,
+  });
+
+  const { chainId, address: agentAddress } = agentBasicInfo;
+  const { swap, getQuote, txnState } = useSwap({ chainId });
+  const { address: account } = useAccount();
+
+  const fetchQuote = async () => {
+    if (!account || !srcToken || !destToken) return;
+    setQuoteLoading(true);
+    if (!isNaN(Number(srcAmount)) && Number(srcAmount)) {
+      try {
+        const parsedSrcAmount = parseUnits(srcAmount, srcToken.decimals);
+        const destAmount = await getQuote({
+          agent: agentAddress,
+          tokenIn: srcToken,
+          tokenOut: destToken,
+          amount: parsedSrcAmount,
+          chainId,
+          fee: agentBasicInfo.swapInfo.fee,
+          zeroToOne:
+            token0.address.toLowerCase() === srcToken.address.toLowerCase(),
+          poolAddress: agentOnChainData.poolAddress,
+        });
+        const formatted = formatUnits(destAmount, destToken.decimals);
+        setDestAmount(formatted);
+        setQuoteLoading(false);
+      } catch (e) {
+        console.error("Quote fetch error:", e);
+        setDestAmount("");
+        setQuoteLoading(false);
+      }
+    } else {
+      setDestAmount("");
+      setQuoteLoading(false);
+    }
+  };
+
+  const handleSwap = async () => {
+    if (!account || !srcToken || !destToken) return;
+    try {
+      const parsedSrcAmount = parseUnits(srcAmount, srcToken.decimals);
+      await swap({
+        agent: agentAddress,
+        tokenIn: srcToken,
+        amountIn: parsedSrcAmount,
+        tokenOut: destToken,
+        deadline: getDeadline(60 * deadline),
+        slippage: slippagePercent,
+        recipient: account,
+        zeroToOne:
+          token0.address.toLowerCase() === srcToken.address.toLowerCase(),
+        poolAddress: agentOnChainData.poolAddress,
+      });
+      fetchBalances();
+      setSrcAmount("0");
+      setDestAmount("0");
+    } catch (e) {
+      console.error("Swap error:", e);
+    }
+  };
+
+  const handleToggle = () => {
+    if (!srcToken && !destToken) return;
+    const temp = srcToken;
+    setSrcToken(destToken);
+    setDestToken(temp);
+    setSrcBalance(0n);
+    setDestBalance(0n);
+    setSrcAmount("0");
+    setDestAmount("0");
+  };
+
+  const fetchBalances = async () => {
+    if (account) {
+      const srcBalance = srcToken
+        ? await fetchTokenBalance({ token: srcToken.address, account, chainId })
+        : 0n;
+      setSrcBalance(srcBalance);
+
+      const destBalance = destToken
+        ? await fetchTokenBalance({
+            token: destToken.address,
+            account,
+            chainId,
+          })
+        : 0n;
+      setDestBalance(destBalance);
+    }
+  };
+
+  const debouncedFetchQuote = useDebouncedCallback(fetchQuote, 400);
+
+  // useEffects
+
+  useEffect(() => {
+    fetchBalances();
+  }, [srcToken.address, destToken.address]);
+
+  useEffect(() => {
+    debouncedFetchQuote();
+  }, [srcAmount]);
+
+  useEffect(() => {
+    if (!account) return;
+    fetchBalances();
+  }, [account]);
+
+  const isButtonDisabled =
+    txnState !== null ||
+    !srcToken ||
+    !destToken ||
+    BigInt(parseUnits(srcAmount || "0", srcToken.decimals)) >
+      BigInt(srcBalance) ||
+    BigInt(parseUnits(srcAmount || "0", srcToken.decimals)) <= 0n ||
+    BigInt(parseUnits(destAmount || "0", destToken.decimals)) <= 0n;
+
+  return (
+    <div className="w-full max-w-xl mx-auto">
+      <div className=" text-white flex justify-between items-center mb-2 py-2">
+        <h3 className="font-semibold text-lg text-black">Interact with hAI</h3>
+        <div className="flex justify-end">
+          <SettingsModal
+            slippage={slippagePercent}
+            setSlippage={(slippagePercent) => {
+              setSettings((prev) => ({ ...prev, slippagePercent }));
+            }}
+            deadline={deadline}
+            setDeadline={(deadline) => {
+              setSettings((prev) => ({ ...prev, deadline }));
+            }}
+            trigger={
+              <Button variant="ghost" size="icon">
+                <Image
+                  src="/gear-icon.svg"
+                  width={20}
+                  height={20}
+                  alt="settings image"
+                  className="transition-transform duration-500 group-hover:rotate-[360deg]"
+                />
+              </Button>
+            }
+          />
+        </div>
+      </div>
+
+      <div className="relative">
+        <SelectTokenCard
+          title="From"
+          token={srcToken}
+          amount={srcAmount}
+          setAmount={(val: string) =>
+            setSrcAmount(isNaN(Number(val)) ? "" : val)
+          }
+          onTokenClick={() => {}}
+          balance={srcBalance}
+          showPercentageButtons={true}
+          showDropdown={false}
+          hideBottomBorder
+        />
+      </div>
+
+      <div className="relative z-10 flex items-center justify-center my-[-12px]">
+        <div className="w-full flex items-center relative group">
+          {/* Left side of the line */}
+          <div className="border-t border-form-outline w-1/2" />
+
+          {/* Icon in the middle */}
+          <div className="z-20 px-2">
+            <button onClick={handleToggle} aria-label="Switch tokens">
+              <Image
+                src="/transaction.svg"
+                alt="transaction icon"
+                width={20}
+                height={20}
+                className={`w-4 h-4 transition-all duration-300 group-hover:text-stroke-6 font-extrabold ${
+                  srcToken && !destToken
+                    ? "text-stroke-6 rotate-0 group-hover:rotate-180"
+                    : !srcToken && destToken
+                      ? "text-stroke-6 rotate-180 group-hover:rotate-0"
+                      : srcToken && destToken
+                        ? "text-grey rotate-0 group-hover:rotate-180"
+                        : "text-grey rotate-0"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Right side of the line */}
+          <div className="border-t border-form-outline w-1/2" />
+        </div>
+      </div>
+
+      <SelectTokenCard
+        title="To"
+        token={destToken}
+        amount={destAmount}
+        setAmount={() => {}}
+        isDisabled
+        onTokenClick={() => {}}
+        balance={destBalance}
+        showPercentageButtons={false}
+        isLoading={quoteLoading}
+        showDropdown={false}
+        hideTopBorder
+      />
+
+      <div className="border-divider border p-4 mt-6 flex justify-between items-center">
+        <Text
+          type="p"
+          className="text-text-primary text-xs md:text-sm font-medium"
+        >
+          Slippage Tolerance
+        </Text>
+        <Text
+          type="p"
+          className="text-text-primary text-xs md:text-sm font-medium"
+        >
+          {slippagePercent}%
+        </Text>
+      </div>
+
+      <button
+        onClick={handleSwap}
+        disabled={isButtonDisabled}
+        className={`
+            w-full 
+          bg-black
+            text-white 
+            text-base 
+            leading-none
+            px-6 py-4 
+            disabled:cursor-not-allowed 
+            transition-all duration-300
+            active:scale-[0.97] 
+            flex items-center justify-center mt-6
+            
+        `}
+      >
+        {getTxnStateText(
+          txnState,
+          `Swap ${srcToken.symbol} to ${destToken.symbol}`
+        )}
+      </button>
+    </div>
+  );
+}
