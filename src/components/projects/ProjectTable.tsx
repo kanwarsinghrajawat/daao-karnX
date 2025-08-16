@@ -132,20 +132,25 @@ const ProjectTable = ({ projects }: Props) => {
                 <Sparkles className="h-3 w-3 text-white" />
               </div>
             </div>
-            
+
             <h3 className="text-xl font-semibold text-slate-200 mb-2">
-              No {selected === "all" ? "projects" : selected === "deployed" ? "live projects" : "upcoming projects"} found
+              No{" "}
+              {selected === "all"
+                ? "projects"
+                : selected === "deployed"
+                  ? "live projects"
+                  : "upcoming projects"}{" "}
+              found
             </h3>
-            
+
             <p className="text-slate-400 text-center max-w-md mb-6">
-              {selected === "upcoming" 
+              {selected === "upcoming"
                 ? "We're working on bringing exciting new projects to the platform. Check back soon for upcoming launches!"
                 : selected === "deployed"
-                ? "All projects are currently in development. New live projects will appear here once they're deployed."
-                : "No projects match your current filter. Try selecting a different category or check back later."
-              }
+                  ? "All projects are currently in development. New live projects will appear here once they're deployed."
+                  : "No projects match your current filter. Try selecting a different category or check back later."}
             </p>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setSelected("all")}
@@ -188,107 +193,111 @@ const ProjectTable = ({ projects }: Props) => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProjects.map(({ projectBasicInfo, onChainData }) => (
-                <tr
-                  key={projectBasicInfo.id}
-                  className="bg-[#1b1b1b] hover:bg-[#242424] transition-colors cursor-pointer rounded-lg ring-1 ring-slate-800/70"
-                  onClick={() => handleRowClick(projectBasicInfo.slug)}
-                >
-                  <td className="p-4 flex items-center gap-4 whitespace-nowrap font-mono rounded-l-lg">
-                    <Image
-                      src={projectBasicInfo.imageDesktop}
-                      alt={projectBasicInfo.name}
-                      width={56}
-                      height={56}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <div className="font-semibold font-mono text-slate-100 flex items-center gap-1">
-                        {projectBasicInfo.name}{" "}
-                        <span className="text-xs text-slate-400">
-                          ${projectBasicInfo.symbol}
-                        </span>
-                        <Image
-                          src="/verified-icon.svg"
-                          alt="Verified"
-                          width={16}
-                          height={16}
-                        />
-                      </div>
-                      {projectBasicInfo.status === "deployed" && (
-                        <div className="text-xs text-slate-400 flex items-center gap-1 mt-1 bg-[#222] rounded px-2 py-0.5 w-fit">
-                          {truncateAddress(projectBasicInfo.address)}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCopy(projectBasicInfo.address);
-                            }}
-                            className="opacity-70 hover:opacity-100 transition"
-                          >
-                            <Copy size={14} />
-                          </button>
-                          {copied === projectBasicInfo.address && (
-                            <span className="text-emerald-400 text-xs ml-1">
-                              Copied!
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      {projectBasicInfo.status === "upcoming" && (
-                        <div className="text-xs text-slate-400 mt-1 bg-[#222] rounded px-2 py-0.5 w-fit">
-                          Coming Soon
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  <td className="p-4 whitespace-nowrap font-mono">
-                    {projectBasicInfo.status === "deployed" 
-                      ? formatDate(projectBasicInfo.bornDate)
-                      : formatDate(projectBasicInfo.launchDate)
-                    }
-                  </td>
-                  <td className="p-4 whitespace-nowrap font-mono">
-                    {projectBasicInfo.status === "deployed" 
-                      ? `$${formatNumber(projectBasicInfo.marketData.totalFunded)}`
-                      : `$${formatNumber(projectBasicInfo.fundingGoal)}`
-                    }
-                  </td>
-                  <td className="p-4 whitespace-nowrap font-mono">
-                    <span className="px-2 py-1 bg-slate-800/50 rounded-md text-xs">
-                      {projectBasicInfo.category}
-                    </span>
-                  </td>
-                  <td className="p-4 whitespace-nowrap font-mono">
-                    <span className={`px-2 py-1 rounded-md text-xs font-medium ${
-                      projectBasicInfo.status === "deployed" 
-                        ? "bg-emerald-900/30 text-emerald-400 ring-1 ring-emerald-500/20"
-                        : "bg-blue-900/30 text-blue-400 ring-1 ring-blue-500/20"
-                    }`}>
-                      {projectBasicInfo.status === "deployed" ? "Live" : "Coming Soon"}
-                    </span>
-                  </td>
-                  <td className="p-4 whitespace-nowrap font-mono rounded-r-lg">
-                    {projectBasicInfo.status === "deployed" ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-slate-700 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full"
-                            style={{ width: `${Math.min(projectBasicInfo.marketData.fundingProgress, 100)}%` }}
+                {filteredProjects.map(({ projectBasicInfo }) => (
+                  <tr
+                    key={projectBasicInfo.id}
+                    className="bg-[#1b1b1b] hover:bg-[#242424] transition-colors cursor-pointer rounded-lg ring-1 ring-slate-800/70"
+                    onClick={() => handleRowClick(projectBasicInfo.slug)}
+                  >
+                    <td className="p-4 flex items-center gap-4 whitespace-nowrap font-mono rounded-l-lg">
+                      <Image
+                        src={projectBasicInfo.imageDesktop}
+                        alt={projectBasicInfo.name}
+                        width={56}
+                        height={56}
+                        className="rounded-full"
+                      />
+                      <div>
+                        <div className="font-semibold font-mono text-slate-100 flex items-center gap-1">
+                          {projectBasicInfo.name}{" "}
+                          <span className="text-xs text-slate-400">
+                            ${projectBasicInfo.symbol}
+                          </span>
+                          <Image
+                            src="/verified-icon.svg"
+                            alt="Verified"
+                            width={16}
+                            height={16}
                           />
                         </div>
-                        <span className="text-xs text-slate-400">
-                          {projectBasicInfo.marketData.fundingProgress}%
-                        </span>
+                        {projectBasicInfo.status === "deployed" && (
+                          <div className="text-xs text-slate-400 flex items-center gap-1 mt-1 bg-[#222] rounded px-2 py-0.5 w-fit">
+                            {truncateAddress(projectBasicInfo.address)}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCopy(projectBasicInfo.address);
+                              }}
+                              className="opacity-70 hover:opacity-100 transition"
+                            >
+                              <Copy size={14} />
+                            </button>
+                            {copied === projectBasicInfo.address && (
+                              <span className="text-emerald-400 text-xs ml-1">
+                                Copied!
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {projectBasicInfo.status === "upcoming" && (
+                          <div className="text-xs text-slate-400 mt-1 bg-[#222] rounded px-2 py-0.5 w-fit">
+                            Coming Soon
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <span className="text-xs text-slate-400">Pending</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    </td>
+                    <td className="p-4 whitespace-nowrap font-mono">
+                      {projectBasicInfo.status === "deployed"
+                        ? formatDate(projectBasicInfo.bornDate)
+                        : formatDate(projectBasicInfo.launchDate)}
+                    </td>
+                    <td className="p-4 whitespace-nowrap font-mono">
+                      {projectBasicInfo.status === "deployed"
+                        ? `$${formatNumber(projectBasicInfo.marketData.totalFunded)}`
+                        : `$${formatNumber(projectBasicInfo.fundingGoal)}`}
+                    </td>
+                    <td className="p-4 whitespace-nowrap font-mono">
+                      <span className="px-2 py-1 bg-slate-800/50 rounded-md text-xs">
+                        {projectBasicInfo.category}
+                      </span>
+                    </td>
+                    <td className="p-4 whitespace-nowrap font-mono">
+                      <span
+                        className={`px-2 py-1 rounded-md text-xs font-medium ${
+                          projectBasicInfo.status === "deployed"
+                            ? "bg-emerald-900/30 text-emerald-400 ring-1 ring-emerald-500/20"
+                            : "bg-blue-900/30 text-blue-400 ring-1 ring-blue-500/20"
+                        }`}
+                      >
+                        {projectBasicInfo.status === "deployed"
+                          ? "Live"
+                          : "Coming Soon"}
+                      </span>
+                    </td>
+                    <td className="p-4 whitespace-nowrap font-mono rounded-r-lg">
+                      {projectBasicInfo.status === "deployed" ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-2 bg-slate-700 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full"
+                              style={{
+                                width: `${Math.min(projectBasicInfo.marketData.fundingProgress, 100)}%`,
+                              }}
+                            />
+                          </div>
+                          <span className="text-xs text-slate-400">
+                            {projectBasicInfo.marketData.fundingProgress}%
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-slate-400">Pending</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </>
