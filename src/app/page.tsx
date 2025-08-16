@@ -1,25 +1,25 @@
-// import AgentCard from "@/components/launchpad";
-import { agentsBySlug } from "@/constants/agents";
+// import ProjectCard from "@/components/launchpad";
+import { projectsBySlug } from "@/constants/projects";
 import { supportedChainIds } from "@/constants/chains";
-import { getAgentOnChainInfo } from "@/helper/agent/agentOnChainInfo";
-import { AgentOnChainData } from "@/types/agent";
-import LiveAgents from "./liveAgents/page";
+import { getProjectOnChainInfo } from "@/helper/project/projectOnChainInfo";
+import { ProjectOnChainData } from "@/types/project";
+import LiveProjects from "./liveProjects/page";
 
 const Home = async () => {
   const chainId = supportedChainIds.bsc;
-  const agentsOnChainDataByAddress: Record<string, AgentOnChainData | null> =
+  const projectsOnChainDataByAddress: Record<string, ProjectOnChainData | null> =
     {};
   await Promise.all(
-    Object.values(agentsBySlug[chainId]).map(async (agent) => {
-      if (agent.status === "upcoming" || !agent.address) {
-        return null; // Skip agents without a valid address
+    Object.values(projectsBySlug[chainId]).map(async (project) => {
+      if (project.status === "upcoming" || !project.address) {
+        return null; // Skip projects without a valid address
       }
-      const data = await getAgentOnChainInfo(agent.address, agent.chainId);
-      agentsOnChainDataByAddress[agent.address] = data;
+      const data = await getProjectOnChainInfo(project.address, project.chainId);
+      projectsOnChainDataByAddress[project.address] = data;
       return data;
     })
   );
-  return <LiveAgents />;
-  // <AgentCard agentsOnChainDataByAddress={agentsOnChainDataByAddress} />;
+  return <LiveProjects />;
+  // <ProjectCard projectsOnChainDataByAddress={projectsOnChainDataByAddress} />;
 };
 export default Home;

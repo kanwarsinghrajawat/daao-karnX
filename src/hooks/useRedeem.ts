@@ -2,13 +2,13 @@ import { toast } from 'react-toastify';
 import { Hex } from 'viem';
 import { useAccount, useSwitchChain, useWriteContract } from 'wagmi';
 
-import { agentAbi } from '@/abi/agent';
+import { projectAbi } from '@/abi/project';
 import { getPublicClient } from '@/utils/publicClient';
 import { useState } from 'react';
 import { TxnState } from '@/types/txn';
 import { txnStates } from '@/constants/txn';
 
-export const useRedeem = ({ chainId, agentAddress }: { chainId: number; agentAddress: Hex }) => {
+export const useRedeem = ({ chainId, projectAddress }: { chainId: number; projectAddress: Hex }) => {
   const { address: account, chainId: walletChainId } = useAccount();
   const [txnState, setTxnState] = useState<TxnState | null>(null); // Placeholder for transaction state if needed
   const { writeContractAsync } = useWriteContract();
@@ -18,8 +18,8 @@ export const useRedeem = ({ chainId, agentAddress }: { chainId: number; agentAdd
     try {
       const publicClient = getPublicClient(chainId);
       const quote = await publicClient.readContract({
-        address: agentAddress,
-        abi: agentAbi,
+        address: projectAddress,
+        abi: projectAbi,
         functionName: 'previewRedemption',
         args: [amountIn],
       });
@@ -40,8 +40,8 @@ export const useRedeem = ({ chainId, agentAddress }: { chainId: number; agentAdd
       setTxnState(txnStates.waitingForTxnWalletConfirmation);
       const hash = await writeContractAsync({
         account,
-        abi: agentAbi,
-        address: agentAddress,
+        abi: projectAbi,
+        address: projectAddress,
         functionName: 'redeemTokens',
         args: [amountIn],
       });

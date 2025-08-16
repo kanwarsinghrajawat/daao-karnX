@@ -1,4 +1,4 @@
-import { agentAbi } from '@/abi/agent';
+import { projectAbi } from '@/abi/project';
 import { txnStates } from '@/constants/txn';
 import { TxnState } from '@/types/txn';
 import { getPublicClient } from '@/utils/publicClient';
@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { Hex } from 'viem';
 import { useAccount, useWriteContract } from 'wagmi';
 
-export const useClaim = ({ chainId, agentAddress }: { chainId: number; agentAddress: Hex }) => {
+export const useClaim = ({ chainId, projectAddress }: { chainId: number; projectAddress: Hex }) => {
   const { address: account } = useAccount();
   const publicClient = getPublicClient(chainId);
   const { writeContractAsync } = useWriteContract();
@@ -20,8 +20,8 @@ export const useClaim = ({ chainId, agentAddress }: { chainId: number; agentAddr
     try {
       setTxnState(txnStates.waitingForTxnWalletConfirmation);
       const txnHash = await writeContractAsync({
-        address: agentAddress,
-        abi: agentAbi,
+        address: projectAddress,
+        abi: projectAbi,
         functionName: 'claimTokens',
         args: [],
       });

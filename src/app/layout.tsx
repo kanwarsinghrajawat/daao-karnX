@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Dao KarnX AI",
-  description: "A decentralized AI agent platform",
+  description: "A decentralized project funding platform",
 };
 
 export default function RootLayout({

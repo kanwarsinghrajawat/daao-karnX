@@ -1,9 +1,9 @@
 "use client";
 
-import { agentsBySlug } from "@/constants/agents";
+import { projectsBySlug } from "@/constants/projects";
 import { supportedChainIds } from "@/constants/chains";
 import { Tabs, TabsList, TabsTrigger } from "@/shadcn/components/ui/tabs";
-import { AgentOnChainData, AgentPhase, AgentStaticInfo } from "@/types/agent";
+import { ProjectOnChainData, ProjectPhase, ProjectStaticInfo } from "@/types/project";
 import { getFormattedTimeLeft } from "@/utils/dateTime";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,53 +12,54 @@ import Link from "next/link";
 import { useState } from "react";
 import { formatUnits } from "viem";
 import Text from "../ui/Text";
-import AgentPlaceholder from "../AgentPlaceholder";
+import ProjectPlaceholder from "../ProjectPlaceholder";
 import { endedPlaceholder, upcomingPlaceholder } from "@/content";
 
-interface AgentCardProps {
-  agentsOnChainDataByAddress: Record<string, AgentOnChainData | null>;
+interface ProjectCardProps {
+  projectsOnChainDataByAddress: Record<string, ProjectOnChainData | null>;
 }
 
 const tabs = ["live", "upcoming", "ended"] as const;
 type AvailableTabs = (typeof tabs)[number];
 
-const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
+const ProjectCard = ({ projectsOnChainDataByAddress }: ProjectCardProps) => {
   const chainId = supportedChainIds.bsc;
-  const agents = Object.values(agentsBySlug[chainId]);
+  const projects = Object.values(projectsBySlug[chainId]);
 
-  const liveAgents: AgentStaticInfo[] = [];
-  const endedAgents: AgentStaticInfo[] = [];
-  const upcomingAgents: AgentStaticInfo[] = [];
+  const liveProjects: ProjectStaticInfo[] = [];
+  const endedProjects: ProjectStaticInfo[] = [];
+  const upcomingProjects: ProjectStaticInfo[] = [];
+
+  // Categorize projects first
+  projects.forEach((project) => {
+    if (project.status === "deployed") {
+      const onChainData = projectsOnChainDataByAddress[project.address];
+      if (onChainData?.currentPhase === ProjectPhase.Fundraising) {
+        liveProjects.push(project);
+      } else if (
+        onChainData?.currentPhase === ProjectPhase.Ended ||
+        onChainData?.currentPhase === ProjectPhase.Finalized
+      ) {
+        endedProjects.push(project);
+      }
+    } else if (project.status === "upcoming") {
+      upcomingProjects.push(project);
+    }
+  });
 
   const getInitialTab = (): AvailableTabs => {
-    if (liveAgents.length > 0) return "live";
-    if (upcomingAgents.length > 0) return "upcoming";
+    if (liveProjects.length > 0) return "live";
+    if (upcomingProjects.length > 0) return "upcoming";
     return "ended";
   };
 
   const [tab, setTab] = useState<AvailableTabs>(getInitialTab());
-
-  agents.forEach((agent) => {
-    if (agent.status === "deployed") {
-      const onChainData = agentsOnChainDataByAddress[agent.address];
-      if (onChainData?.currentPhase === AgentPhase.Fundraising) {
-        liveAgents.push(agent);
-      } else if (
-        onChainData?.currentPhase === AgentPhase.Ended ||
-        onChainData?.currentPhase === AgentPhase.Finalized
-      ) {
-        endedAgents.push(agent);
-      }
-    } else if (agent.status === "upcoming") {
-      upcomingAgents.push(agent);
-    }
-  });
   const filtered =
     tab === "live"
-      ? liveAgents
+      ? liveProjects
       : tab === "upcoming"
-        ? upcomingAgents
-        : endedAgents;
+        ? upcomingProjects
+        : endedProjects;
 
   return (
     <div className="max-w-xs md:max-w-7xl mx-auto py-6">
@@ -105,9 +106,9 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
       </div>
 
       {filtered.length === 0 && tab === "upcoming" ? (
-        <AgentPlaceholder {...upcomingPlaceholder} />
+        <ProjectPlaceholder {...upcomingPlaceholder} />
       ) : filtered.length === 0 && tab === "ended" ? (
-        <AgentPlaceholder {...endedPlaceholder} />
+        <ProjectPlaceholder {...endedPlaceholder} />
       ) : (
         <AnimatePresence mode="wait">
           <motion.div
@@ -118,21 +119,21 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filtered.map((agentStaticInfo) => {
-              const agentOnChainData =
-                agentStaticInfo.status === "deployed"
-                  ? agentsOnChainDataByAddress[agentStaticInfo.address]
+            {filtered.map((projectStaticInfo) => {
+              const projectOnChainData =
+                projectStaticInfo.status === "deployed"
+                  ? projectsOnChainDataByAddress[projectStaticInfo.address]
                   : undefined;
-              const raisedAmount = agentOnChainData
-                ? agentOnChainData.maxRaise - agentOnChainData.remainingCapacity
+              const raisedAmount = projectOnChainData
+                ? projectOnChainData.maxRaise - projectOnChainData.remainingCapacity
                 : 0n;
               return (
-                <Link href={agentStaticInfo.link} key={agentStaticInfo.id}>
+                <Link href={projectStaticInfo.link} key={projectStaticInfo.id}>
                   <div className="border border-divider p-4 bg-[#171717] hover:shadow-lg transition duration-300 ease-in-out">
                     <div className="flex gap-4 items-start">
                       <Image
-                        src={agentStaticInfo.image}
-                        alt={agentStaticInfo.name}
+                        src={projectStaticInfo.imageDesktop}
+                        alt={projectStaticInfo.name}
                         width={80}
                         height={80}
                       />
@@ -142,13 +143,13 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
                             type="h2"
                             className="font-bold text-sm text-text-primary"
                           >
-                            {agentStaticInfo.name}
+                            {projectStaticInfo.name}
                           </Text>
                           <Text
                             type="span"
                             className="text-sm font-medium text-text-secondary"
                           >
-                            ${agentStaticInfo.symbol}
+                            ${projectStaticInfo.symbol}
                           </Text>
                           <Image
                             src="/verified-icon.svg"
@@ -161,67 +162,67 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
                           type="p"
                           className="text-xs text-text-primary line-clamp-3"
                         >
-                          {agentStaticInfo.description}
+                          {projectStaticInfo.description}
                         </Text>
                       </div>
                     </div>
 
-                    {agentOnChainData?.currentPhase ===
-                      AgentPhase.Fundraising && (
+                    {projectOnChainData?.currentPhase ===
+                      ProjectPhase.Fundraising && (
                       <>
                         <div className="text-sm text-gray-600 flex justify-between items-center">
                           <span>Funding Goals</span>
                           <span>
                             {formatUnits(
                               raisedAmount,
-                              agentOnChainData.underlyingAssetDetails.decimals
+                              projectOnChainData.underlyingAssetDetails.decimals
                             )}{" "}
                             /{" "}
                             {formatUnits(
-                              agentOnChainData.maxRaise,
-                              agentOnChainData.underlyingAssetDetails.decimals
+                              projectOnChainData.maxRaise,
+                              projectOnChainData.underlyingAssetDetails.decimals
                             )}{" "}
-                            {agentOnChainData.underlyingAssetDetails.symbol}
+                            {projectOnChainData.underlyingAssetDetails.symbol}
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 h-3  overflow-hidden">
                           <div
                             className="h-full bg-black"
                             style={{
-                              width: `${(raisedAmount / agentOnChainData.maxRaise) * 100n}%`,
+                              width: `${(raisedAmount / projectOnChainData.maxRaise) * 100n}%`,
                             }}
                           />
                         </div>
                         <div className="bg-black text-white text-center py-2 text-sm ">
                           Ending in{" "}
                           {getFormattedTimeLeft(
-                            agentOnChainData.fundraiseEndTime
+                            projectOnChainData.fundraiseEndTime
                           )}
                         </div>
                       </>
                     )}
 
-                    {agentStaticInfo.status === "upcoming" && (
+                    {projectStaticInfo.status === "upcoming" && (
                       <div className="bg-background-gray text-center py-3 text-sm font-medium text-black mt-4">
-                        {agentStaticInfo.launchDate &&
-                        new Date(agentStaticInfo.launchDate) > new Date()
-                          ? `Starting in ${getFormattedTimeLeft(agentStaticInfo.launchDate)}`
+                        {projectStaticInfo.launchDate &&
+                        new Date(projectStaticInfo.launchDate) > new Date()
+                          ? `Starting in ${getFormattedTimeLeft(projectStaticInfo.launchDate)}`
                           : "Starting Soon"}
                       </div>
                     )}
 
-                    {agentOnChainData?.currentPhase === AgentPhase.Ended && (
+                    {projectOnChainData?.currentPhase === ProjectPhase.Ended && (
                       <>
                         <Text
                           type="p"
                           className={clsx(
                             "text-sm font-normal text-center py-2 mt-2",
-                            agentOnChainData.remainingCapacity === 0n
+                            projectOnChainData.remainingCapacity === 0n
                               ? "bg-background-green text-positive"
                               : "bg-background-red text-ngative"
                           )}
                         >
-                          {agentOnChainData.remainingCapacity === 0n
+                          {projectOnChainData.remainingCapacity === 0n
                             ? "100% Funded"
                             : "Not Funded"}
                         </Text>
@@ -229,8 +230,8 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
                           type="p"
                           className="bg-background-gray text-center font-normal py-2 text-sm"
                         >
-                          {agentOnChainData.remainingCapacity === 0n
-                            ? `Unlocking in ${getFormattedTimeLeft(agentOnChainData.operationalEndTime)}`
+                          {projectOnChainData.remainingCapacity === 0n
+                            ? `Unlocking in ${getFormattedTimeLeft(projectOnChainData.operationalEndTime)}`
                             : "Refund Available"}
                         </Text>
                       </>
@@ -246,4 +247,4 @@ const AgentCard = ({ agentsOnChainDataByAddress }: AgentCardProps) => {
   );
 };
 
-export default AgentCard;
+export default ProjectCard;

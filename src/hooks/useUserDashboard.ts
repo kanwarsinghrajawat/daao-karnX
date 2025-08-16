@@ -1,11 +1,11 @@
-import { agentAbi } from '@/abi/agent';
+import { projectAbi } from '@/abi/project';
 import { UserContributionDetails } from '@/types/user';
 import { getPublicClient } from '@/utils/publicClient';
 import { useState } from 'react';
 import { Hex } from 'viem';
 import { useAccount } from 'wagmi';
 
-export const useUserDashboard = ({ chainId, agentAddress }: { chainId: number; agentAddress: Hex }) => {
+export const useUserDashboard = ({ chainId, projectAddress }: { chainId: number; projectAddress: Hex }) => {
   const publicClient = getPublicClient(chainId);
 
   const { address: account } = useAccount();
@@ -23,8 +23,8 @@ export const useUserDashboard = ({ chainId, agentAddress }: { chainId: number; a
     setIsUserContributionDetailsLoading(true);
     try {
       const res = await publicClient.readContract({
-        address: agentAddress,
-        abi: agentAbi,
+        address: projectAddress,
+        abi: projectAbi,
         functionName: 'getUserAllocation',
         args: [account],
       });

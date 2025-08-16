@@ -1,28 +1,28 @@
 "use client";
-import { getAgentOnChainInfo } from "@/helper/agent/agentOnChainInfo";
+import { getProjectOnChainInfo } from "@/helper/project/projectOnChainInfo";
 import { useUserDashboard } from "@/hooks/useUserDashboard";
 import {
-  AgentOnChainData,
-  AgentPhase,
-  DeployedAgentStaticInfo,
-} from "@/types/agent";
+  ProjectOnChainData,
+  ProjectPhase,
+  DeployedProjectStaticInfo,
+} from "@/types/project";
 import { useEffect, useState } from "react";
-import AgentActionPanel from "./AgentActionPanel";
+import ProjectActionPanel from "./ProjectActionPanel";
 import { motion, AnimatePresence } from "framer-motion";
-import { AgentDetailsPanel } from "./agentDetailsPanel";
+import { ProjectDetailsPanel } from "./projectDetailsPanel";
 // import { useAccount } from "wagmi";
 
-interface AgentDetailsPageProps {
-  agentBasicInfo: DeployedAgentStaticInfo;
-  agentOnChainData: AgentOnChainData;
+interface ProjectDetailsPageProps {
+  projectBasicInfo: DeployedProjectStaticInfo;
+  projectOnChainData: ProjectOnChainData;
 }
 
-const AgentDetailsPage = ({
-  agentBasicInfo,
-  agentOnChainData,
-}: AgentDetailsPageProps) => {
+const ProjectDetailsPage = ({
+  projectBasicInfo,
+  projectOnChainData,
+}: ProjectDetailsPageProps) => {
   const [currentOnChainData, setCurrentOnChainData] =
-    useState<AgentOnChainData>(agentOnChainData);
+    useState<ProjectOnChainData>(projectOnChainData);
   const [activeTab, setActiveTab] = useState<"info" | "trade">("info");
   // const { address: account } = useAccount();
 
@@ -31,14 +31,14 @@ const AgentDetailsPage = ({
     fetchUserContributionDetails,
     isUserContributionDetailsLoading,
   } = useUserDashboard({
-    chainId: agentBasicInfo.chainId,
-    agentAddress: agentBasicInfo.address,
+    chainId: projectBasicInfo.chainId,
+    projectAddress: projectBasicInfo.address,
   });
 
   const refreshOnChainData = async () => {
-    const res = await getAgentOnChainInfo(
-      agentBasicInfo.address,
-      agentBasicInfo.chainId
+    const res = await getProjectOnChainInfo(
+      projectBasicInfo.address,
+      projectBasicInfo.chainId
     );
     if (res) {
       setCurrentOnChainData(res);
@@ -51,7 +51,7 @@ const AgentDetailsPage = ({
 
   useEffect(() => {
     if (
-      currentOnChainData.currentPhase === AgentPhase.Fundraising &&
+      currentOnChainData.currentPhase === ProjectPhase.Fundraising &&
       currentOnChainData.isFundraiseActive
     ) {
       const interval = setInterval(() => {
@@ -62,24 +62,24 @@ const AgentDetailsPage = ({
   }, [currentOnChainData]);
 
   useEffect(() => {
-    if (agentBasicInfo.address) {
+    if (projectBasicInfo.address) {
       fetchUserContributionDetails();
     }
-  }, [agentBasicInfo.address]);
+  }, [projectBasicInfo.address]);
 
   return (
     <div className="py-6 sm:max-w-7xl mx-6 sm:mx-auto flex flex-col lg:flex-row gap-16">
       <div className="hidden lg:block flex-1 lg:flex-[3]">
-        <AgentDetailsPanel
-          agentBasicInfo={agentBasicInfo}
-          agentOnChainData={currentOnChainData}
+        <ProjectDetailsPanel
+          projectBasicInfo={projectBasicInfo}
+          projectOnChainData={currentOnChainData}
         />
       </div>
 
       <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
-        <AgentActionPanel
-          agentBasicInfo={agentBasicInfo}
-          agentOnChainData={currentOnChainData}
+        <ProjectActionPanel
+          projectBasicInfo={projectBasicInfo}
+          projectOnChainData={currentOnChainData}
           refreshOnChainData={refreshOnChainData}
           userContributionDetails={userContributionDetails}
           refreshUserContributionDetails={refreshUserContributionDetails}
@@ -99,7 +99,7 @@ const AgentDetailsPage = ({
           <div className="max-w-7xl mx-auto">
             <div
               role="tablist"
-              aria-label="Agent actions"
+              aria-label="Project actions"
               className="relative isolate inline-flex w-full rounded-xl ring-1 ring-slate-800/70 bg-[#1a1a1a] p-1"
             >
               {/* moving highlight */}
@@ -144,9 +144,9 @@ const AgentDetailsPage = ({
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.3 }}
               >
-                <AgentDetailsPanel
-                  agentBasicInfo={agentBasicInfo}
-                  agentOnChainData={currentOnChainData}
+                <ProjectDetailsPanel
+                  projectBasicInfo={projectBasicInfo}
+                  projectOnChainData={currentOnChainData}
                 />
               </motion.div>
             ) : (
@@ -157,9 +157,9 @@ const AgentDetailsPage = ({
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.3 }}
               >
-                <AgentActionPanel
-                  agentBasicInfo={agentBasicInfo}
-                  agentOnChainData={currentOnChainData}
+                <ProjectActionPanel
+                  projectBasicInfo={projectBasicInfo}
+                  projectOnChainData={currentOnChainData}
                   refreshOnChainData={refreshOnChainData}
                   userContributionDetails={userContributionDetails}
                   refreshUserContributionDetails={
@@ -178,4 +178,4 @@ const AgentDetailsPage = ({
   );
 };
 
-export default AgentDetailsPage;
+export default ProjectDetailsPage;

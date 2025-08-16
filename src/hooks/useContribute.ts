@@ -1,4 +1,4 @@
-import { agentAbi } from '@/abi/agent';
+import { projectAbi } from '@/abi/project';
 import { chainsData } from '@/constants/chains';
 import { txnStates } from '@/constants/txn';
 import { fetchTokenBalance } from '@/helper/token';
@@ -12,11 +12,11 @@ import { useAccount, useWriteContract } from 'wagmi';
 
 export const useContribute = ({
   chainId,
-  agentAddress,
+  projectAddress,
   underlyingAsset,
 }: {
   chainId: number;
-  agentAddress: Hex;
+  projectAddress: Hex;
   underlyingAsset: Token;
 }) => {
   const { address: account } = useAccount();
@@ -80,12 +80,12 @@ export const useContribute = ({
       await approveIfNeeded({
         token: underlyingAsset.address,
         amount,
-        spender: agentAddress,
+        spender: projectAddress,
       });
       setTxnState(txnStates.waitingForTxnWalletConfirmation);
       const txnHash = await writeContractAsync({
-        address: agentAddress,
-        abi: agentAbi,
+        address: projectAddress,
+        abi: projectAbi,
         functionName: 'contribute',
         args: [amount],
       });

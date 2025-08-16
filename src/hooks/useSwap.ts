@@ -5,7 +5,7 @@ import { generateSwapTxnData } from '@/swap/buildTxn';
 import { getQuotes } from '@/swap/quotes';
 import type { Token } from '@/types/tokens';
 import { TxnState } from '@/types/txn';
-import { getAgentStaticInfoByAddress } from '@/utils/agent';
+import { getProjectStaticInfoByAddress } from '@/utils/project';
 import { getPublicClient } from '@/utils/publicClient';
 import { getMinAmount } from '@/utils/slippage';
 import { useState } from 'react';
@@ -57,7 +57,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
     amount,
     zeroToOne,
     chainId,
-    agent,
+    project,
     poolAddress,
   }: {
     tokenIn: Token;
@@ -66,11 +66,11 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
     amount: bigint;
     zeroToOne: boolean;
     chainId: number;
-    agent: Hex;
+    project: Hex;
     poolAddress: Hex;
   }) => {
-    const agentStaticInfo = getAgentStaticInfoByAddress({ address: agent, chainId });
-    if (!agentStaticInfo) throw new Error('Agent not found');
+    const projectStaticInfo = getProjectStaticInfoByAddress({ address: project, chainId });
+    if (!projectStaticInfo) throw new Error('Project not found');
     const res = await getQuotes({
       tokenIn: tokenIn.address,
       tokenOut: tokenOut.address,
@@ -78,7 +78,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
       amount: parseUnits(amount.toString(), tokenIn.decimals),
       sqrtPrice: zeroToOne ? minSqrtPrice : maxSqrtPrice,
       zeroToOne,
-      type: agentStaticInfo.swapInfo.dex,
+      type: projectStaticInfo.swapInfo.dex,
       chainId,
       poolAddress,
     });
@@ -93,7 +93,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
     slippage,
     recipient,
     zeroToOne,
-    agent,
+    project,
     poolAddress,
     deadline,
   }: {
@@ -103,7 +103,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
     slippage: number;
     zeroToOne: boolean;
     recipient: Hex;
-    agent: Hex;
+    project: Hex;
     poolAddress: Hex;
     deadline: bigint;
   }) => {
@@ -113,10 +113,10 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
         await switchChainAsync({ chainId });
       }
 
-      const agentStaticInfo = getAgentStaticInfoByAddress({ address: agent, chainId });
-      if (!agentStaticInfo) throw new Error('Agent not found');
+      const projectStaticInfo = getProjectStaticInfoByAddress({ address: project, chainId });
+      if (!projectStaticInfo) throw new Error('Project not found');
 
-      const { router } = dexAddresses[chainId][agentStaticInfo.swapInfo.dex];
+      const { router } = dexAddresses[chainId][projectStaticInfo.swapInfo.dex];
 
       await approveIfNeeded({
         amount: amountIn,
@@ -127,11 +127,11 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
       const amountOut = await getQuote({
         tokenIn,
         tokenOut,
-        fee: agentStaticInfo.swapInfo.fee,
+        fee: projectStaticInfo.swapInfo.fee,
         amount: amountIn,
         zeroToOne,
         chainId,
-        agent,
+        project,
         poolAddress,
       });
 
@@ -140,7 +140,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
       const { callData, to, value } = await generateSwapTxnData({
         tokenIn: tokenIn.address,
         tokenOut: tokenOut.address,
-        fee: agentStaticInfo.swapInfo.fee,
+        fee: projectStaticInfo.swapInfo.fee,
         recipient,
         poolAddress,
         amountIn,
@@ -148,7 +148,7 @@ export const useSwap = ({ chainId }: { chainId: number }) => {
         deadline,
         minAmountOut,
         zeroToOne,
-        type: agentStaticInfo.swapInfo.dex,
+        type: projectStaticInfo.swapInfo.dex,
         chainId,
       });
 
