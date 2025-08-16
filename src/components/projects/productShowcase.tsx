@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 type TrendingItem = {
   id: string;
   name: string;
+  slug: string;
   subtitle?: string;
   avatar: string;
   tag?: { label: string; type?: "lock" | "dyor" | "custom" };
@@ -56,8 +57,8 @@ const ProductShowcase: React.FC<Props> = ({
           {trending.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between bg-[#1b1b1b] hover:bg-[#242424] transition-colors rounded-xl ring-1 ring-slate-800/70 px-3 py-2"
-              onClick={() => handleRowClick(item.id)}
+              className="flex cursor-pointer items-center justify-between bg-[#1b1b1b] hover:bg-[#242424] transition-colors rounded-xl ring-1 ring-slate-800/70 px-3 py-2"
+              onClick={() => handleRowClick(item.slug)}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Image
