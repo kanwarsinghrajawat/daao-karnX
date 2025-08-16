@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Flame, Lock } from "lucide-react";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 type TrendingItem = {
   id: string;
@@ -37,6 +38,11 @@ const ProductShowcase: React.FC<Props> = ({
   spotlight,
   carousel,
 }) => {
+  const router = useRouter();
+  const handleRowClick = (slug: string) => {
+    router.push(`/project/${slug}`);
+  };
+
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-[30%_30%_1fr]">
       {/* Trending */}
@@ -51,6 +57,7 @@ const ProductShowcase: React.FC<Props> = ({
             <div
               key={item.id}
               className="flex items-center justify-between bg-[#1b1b1b] hover:bg-[#242424] transition-colors rounded-xl ring-1 ring-slate-800/70 px-3 py-2"
+              onClick={() => handleRowClick(item.id)}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Image
