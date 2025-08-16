@@ -11,23 +11,61 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useCallback } from "react";
+import React from "react";
 
 import AddressLink from "@/components/ui/AddressLink";
 import Text from "@/components/ui/Text";
-import { ProjectOnChainData, DeployedProjectStaticInfo } from "@/types/project";
+import {
+  ProjectOnChainData,
+  ProjectStaticInfo,
+  // DeployedProjectStaticInfo,
+} from "@/types/project";
 import { formatNumber } from "@/utils/number";
 import { SocialsList } from "../SocialsList";
 
+/* --------------------------------- Types --------------------------------- */
+
 type ProjectCarouselProps = {
   projects: {
-    projectBasicInfo: DeployedProjectStaticInfo;
+    projectBasicInfo: ProjectStaticInfo; // union: upcoming | deployed
     onChainData: ProjectOnChainData;
   }[];
 };
 
+type CanScroll = { left: boolean; right: boolean };
+
+/* ------------------------------- Helpers (TS) ------------------------------ */
+
+function formatShortDate(d: Date | undefined): string {
+  if (!d) return "TBD";
+  const date = new Date(d);
+  if (Number.isNaN(date.getTime())) return "TBD";
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+function getMilestoneDate(p: ProjectStaticInfo): string {
+  return p.status === "upcoming"
+    ? formatShortDate(p.launchDate)
+    : formatShortDate(p.bornDate);
+}
+
+function toNumber(value: string | number | undefined): number {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const n = Number(value.replace(/[, ]/g, ""));
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
+}
+
+/* -------------------------------- Component -------------------------------- */
+
 const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScroll, setCanScroll] = useState({ left: false, right: false });
+  const [canScroll, setCanScroll] = useState<CanScroll>({
+    left: false,
+    right: false,
+  });
   const router = useRouter();
 
   const updateScrollButtons = useCallback(() => {
@@ -78,29 +116,34 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
             key={projectBasicInfo.id}
             onClick={() => handleRowClick(projectBasicInfo.slug)}
             className="
-    snap-start select-none cursor-pointer
-    bg-[#141414] rounded-2xl ring-1 ring-slate-800/70
-    transition-all duration-300
-    hover:-translate-y-0.5 hover:ring-orange-400/50 hover:shadow-[0_0_24px_rgba(251,146,60,0.12)]
-    p-5 flex-shrink-0
-    min-w-[85%] max-w-[85%]
-  "
+              snap-start select-none cursor-pointer
+              bg-[#141414] rounded-2xl ring-1 ring-slate-800/70
+              transition-all duration-300
+              hover:-translate-y-0.5 hover:ring-orange-400/50 hover:shadow-[0_0_24px_rgba(251,146,60,0.12)]
+              p-5 flex-shrink-0
+              min-w-[85%] max-w-[85%]
+            "
           >
-            {/* HEADER ROW: image left, title+desc right */}
+            {/* HEADER ROW: small image on the top-left, title/desc on the right */}
             <div className="flex gap-4 items-start">
-              {/* small image top-left */}
-              <div className="relative w-[100px] h-[100px] rounded-lg overflow-hidden bg-[#1b1b1b] ring-1 ring-slate-800 flex-shrink-0">
+              <div className="relative w-[120px] h-[120px] rounded-lg overflow-hidden bg-[#1b1b1b] ring-1 ring-slate-800 flex-shrink-0">
                 <img
                   src={projectBasicInfo.imageDesktop}
                   alt={projectBasicInfo.name}
                   className="w-full h-full object-cover"
+                  onError={(
+                    e: React.SyntheticEvent<HTMLImageElement, Event>
+                  ) => {
+                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      projectBasicInfo.name
+                    )}&background=111827&color=fff&size=120`;
+                  }}
                 />
                 <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[#121212]/90 text-[10px] text-slate-300 font-mono">
                   ${projectBasicInfo.symbol}
                 </span>
               </div>
 
-              {/* title + short text */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <Text
@@ -145,40 +188,32 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                   <>
                     <StatChip
                       label="Market Cap"
-                      value={`${formatNumber(projectBasicInfo.marketData.marketCap)}`}
+                      value={formatNumber(
+                        toNumber(projectBasicInfo.marketData.marketCap)
+                      )}
                     />
                     <StatChip
                       label="TVL"
-                      value={`${formatNumber(projectBasicInfo.marketData.tvl)}`}
+                      value={formatNumber(
+                        toNumber(projectBasicInfo.marketData.tvl)
+                      )}
                     />
                     <StatChip
                       label="24h Vol"
-                      value={`${formatNumber(projectBasicInfo.marketData.volume)}`}
+                      value={formatNumber(
+                        toNumber(projectBasicInfo.marketData.volume)
+                      )}
                     />
                   </>
                 ) : (
                   <>
                     <StatChip
                       label="Goal"
-                      value={`$${formatNumber(projectBasicInfo.fundingGoal)}`}
+                      value={`$${formatNumber(toNumber(projectBasicInfo.fundingGoal))}`}
                     />
                     <StatChip
                       label="Launch"
-                      value={
-                        projectBasicInfo.status === "upcoming"
-                          ? new Date(
-                              (projectBasicInfo as any).launchDate
-                            ).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })
-                          : new Date(
-                              (projectBasicInfo as any).bornDate
-                            ).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })
-                      }
+                      value={getMilestoneDate(projectBasicInfo)}
                     />
                   </>
                 )}
@@ -194,10 +229,14 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                       src={member.avatar}
                       alt={member.name}
                       className="w-6 h-6 rounded-full ring-2 ring-[#141414] object-cover bg-slate-700"
-                      onError={(e) => {
-                        const t = e.target as HTMLImageElement;
-                        t.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=374151&color=fff&size=24`;
+                      onError={(
+                        e: React.SyntheticEvent<HTMLImageElement, Event>
+                      ) => {
+                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          member.name
+                        )}&background=374151&color=fff&size=24`;
                       }}
+                      title={`${member.name} — ${member.role}`}
                     />
                   ))}
                   {projectBasicInfo.team.length > 3 && (
@@ -220,7 +259,11 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                     label="Demo"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(projectBasicInfo.demoVideoUrl, "_blank");
+                      window.open(
+                        projectBasicInfo.demoVideoUrl,
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
                     }}
                   />
                 )}
@@ -230,7 +273,11 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                     label="Pitch"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(projectBasicInfo.pitchDeckUrl, "_blank");
+                      window.open(
+                        projectBasicInfo.pitchDeckUrl,
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
                     }}
                   />
                 )}
@@ -240,7 +287,11 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                     label="Website"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(projectBasicInfo.websiteUrl, "_blank");
+                      window.open(
+                        projectBasicInfo.websiteUrl,
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
                     }}
                   />
                 )}
@@ -343,7 +394,7 @@ function MediaLink({
 }: {
   icon: React.ReactNode;
   label: string;
-  onClick: (e: React.MouseEvent) => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <button
@@ -358,22 +409,5 @@ function MediaLink({
       {icon}
       {label}
     </button>
-  );
-}
-
-function StatBlock({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) {
-  return (
-    <div>
-      <div className="text-xs text-slate-400">{label}</div>
-      <div className="text-base md:text-lg font-semibold text-slate-100">
-        {value}
-      </div>
-    </div>
   );
 }
