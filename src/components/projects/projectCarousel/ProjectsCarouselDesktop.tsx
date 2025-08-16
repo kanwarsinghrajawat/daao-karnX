@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play, FileText, Users, Target } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  FileText,
+  Users,
+  Target,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useCallback } from "react";
 
@@ -71,68 +78,57 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
             key={projectBasicInfo.id}
             onClick={() => handleRowClick(projectBasicInfo.slug)}
             className="
-              snap-start select-none cursor-pointer
-              bg-[#141414] rounded-2xl ring-1 ring-slate-800/70
-              transition-all duration-300
-              hover:-translate-y-0.5 hover:ring-orange-400/50 hover:shadow-[0_0_24px_rgba(251,146,60,0.12)]
-              p-5 flex flex-col flex-shrink-0
-              min-w-[85%] max-w-[85%] 
-            "
+    snap-start select-none cursor-pointer
+    bg-[#141414] rounded-2xl ring-1 ring-slate-800/70
+    transition-all duration-300
+    hover:-translate-y-0.5 hover:ring-orange-400/50 hover:shadow-[0_0_24px_rgba(251,146,60,0.12)]
+    p-5 flex-shrink-0
+    min-w-[85%] max-w-[85%]
+  "
           >
-            {/* image on top with media preview */}
-            <div className="relative w-full h-[200px] rounded-xl overflow-hidden bg-[#1b1b1b] ring-1 ring-slate-800">
-              <img
-                src={projectBasicInfo.imageDesktop}
-                alt={projectBasicInfo.name}
-                className="w-full h-full object-cover"
-              />
-              
-              {/* Media preview overlay */}
-              {projectBasicInfo.demoVideoUrl && (
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                    <Play className="h-6 w-6 text-white" fill="white" />
-                  </div>
-                </div>
-              )}
-              
-              {/* Category tag */}
-              <span className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#121212]/90 ring-1 ring-slate-800 text-[10px] text-slate-300 font-medium">
-                {projectBasicInfo.category}
-              </span>
-              
-              {/* symbol pill */}
-              <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-[#121212]/90 ring-1 ring-slate-800 text-[10px] text-slate-300 font-mono">
-                ${projectBasicInfo.symbol}
-              </span>
-              
-              {/* Funding progress */}
-              {projectBasicInfo.status === 'deployed' && (
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-green-900/80 ring-1 ring-green-700 text-[10px] text-green-300 font-medium">
-                  {projectBasicInfo.marketData.fundingProgress}% Funded
-                </div>
-              )}
-            </div>
-
-            {/* title + description */}
-            <div className="mt-4">
-              <div className="flex items-center gap-2 flex-wrap mb-2">
-                <Text type="p" className="font-bold text-xl text-slate-100">
-                  {projectBasicInfo.name}
-                </Text>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#112229] text-cyan-300 text-[11px] ring-1 ring-slate-800/70">
-                  <Image
-                    src="/verified-icon.svg"
-                    alt="Verified"
-                    width={14}
-                    height={14}
-                  />
-                  Verified
+            {/* HEADER ROW: image left, title+desc right */}
+            <div className="flex gap-4 items-start">
+              {/* small image top-left */}
+              <div className="relative w-[100px] h-[100px] rounded-lg overflow-hidden bg-[#1b1b1b] ring-1 ring-slate-800 flex-shrink-0">
+                <img
+                  src={projectBasicInfo.imageDesktop}
+                  alt={projectBasicInfo.name}
+                  className="w-full h-full object-cover"
+                />
+                <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-[#121212]/90 text-[10px] text-slate-300 font-mono">
+                  ${projectBasicInfo.symbol}
                 </span>
               </div>
-              
-              {/* Tags */}
-              <div className="flex gap-1 flex-wrap mb-3">
+
+              {/* title + short text */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Text
+                    type="p"
+                    className="font-bold text-lg md:text-xl text-slate-100 truncate"
+                  >
+                    {projectBasicInfo.name}
+                  </Text>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#112229] text-cyan-300 text-[11px] ring-1 ring-slate-800/70">
+                    <Image
+                      src="/verified-icon.svg"
+                      alt="Verified"
+                      width={14}
+                      height={14}
+                    />
+                    Verified
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-slate-300/90 line-clamp-2">
+                  {projectBasicInfo.description}
+                </p>
+              </div>
+            </div>
+
+            {/* BELOW: rest of content full width */}
+            <div className="mt-4 space-y-4">
+              {/* tags */}
+              <div className="flex gap-1 flex-wrap">
                 {projectBasicInfo.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
@@ -142,141 +138,139 @@ const ProjectsCarousel = ({ projects }: ProjectCarouselProps) => {
                   </span>
                 ))}
               </div>
-              
-              <p className="text-sm text-slate-300/90 leading-relaxed line-clamp-3">
-                {projectBasicInfo.description}
-              </p>
-            </div>
 
-            {/* Team avatars */}
-            <div className="mt-4 flex items-center gap-2">
-              <Users className="h-4 w-4 text-slate-400" />
-              <div className="flex -space-x-2">
-                {projectBasicInfo.team.slice(0, 3).map((member) => (
-                  <div
-                    key={member.name}
-                    className="relative w-6 h-6 rounded-full ring-2 ring-[#141414] overflow-hidden bg-slate-700"
-                    title={`${member.name} - ${member.role}`}
-                  >
-                    <img
-                      src={member.avatar}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=374151&color=fff&size=24`;
-                      }}
+              {/* stats row */}
+              <div className="flex gap-2 flex-wrap">
+                {projectBasicInfo.status === "deployed" ? (
+                  <>
+                    <StatChip
+                      label="Market Cap"
+                      value={`${formatNumber(projectBasicInfo.marketData.marketCap)}`}
                     />
-                  </div>
-                ))}
-                {projectBasicInfo.team.length > 3 && (
-                  <div className="w-6 h-6 rounded-full ring-2 ring-[#141414] bg-slate-700 flex items-center justify-center">
-                    <span className="text-[8px] text-slate-300 font-medium">
-                      +{projectBasicInfo.team.length - 3}
-                    </span>
-                  </div>
+                    <StatChip
+                      label="TVL"
+                      value={`${formatNumber(projectBasicInfo.marketData.tvl)}`}
+                    />
+                    <StatChip
+                      label="24h Vol"
+                      value={`${formatNumber(projectBasicInfo.marketData.volume)}`}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <StatChip
+                      label="Goal"
+                      value={`$${formatNumber(projectBasicInfo.fundingGoal)}`}
+                    />
+                    <StatChip
+                      label="Launch"
+                      value={
+                        projectBasicInfo.status === "upcoming"
+                          ? new Date(
+                              (projectBasicInfo as any).launchDate
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })
+                          : new Date(
+                              (projectBasicInfo as any).bornDate
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })
+                      }
+                    />
+                  </>
                 )}
               </div>
-              <span className="text-xs text-slate-400 ml-2">
-                {projectBasicInfo.team.length} team member{projectBasicInfo.team.length !== 1 ? 's' : ''}
-              </span>
-            </div>
 
-            {/* stat chips in one row */}
-            <div className="mt-4 mb-4 flex gap-2 flex-wrap">
-              {projectBasicInfo.status === 'deployed' ? (
-                <>
-                  <StatChip
-                    label="Market Cap"
-                    value={`${formatNumber(projectBasicInfo.marketData.marketCap)}`}
-                  />
-                  <StatChip
-                    label="TVL"
-                    value={`${formatNumber(projectBasicInfo.marketData.tvl)}`}
-                  />
-                  <StatChip
-                    label="24h Vol"
-                    value={`${formatNumber(projectBasicInfo.marketData.volume)}`}
-                  />
-                </>
-              ) : (
-                <>
-                  <StatChip
-                    label="Goal"
-                    value={`$${formatNumber(projectBasicInfo.fundingGoal)}`}
-                  />
-                  <StatChip
-                    label="Launch"
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    value={projectBasicInfo.status === 'upcoming' 
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      ? new Date((projectBasicInfo as any).launchDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      : new Date((projectBasicInfo as any).bornDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                    }
-                  />
-                </>
-              )}
-            </div>
+              {/* team */}
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-slate-400" />
+                <div className="flex -space-x-2">
+                  {projectBasicInfo.team.slice(0, 3).map((member) => (
+                    <img
+                      key={member.name}
+                      src={member.avatar}
+                      alt={member.name}
+                      className="w-6 h-6 rounded-full ring-2 ring-[#141414] object-cover bg-slate-700"
+                      onError={(e) => {
+                        const t = e.target as HTMLImageElement;
+                        t.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=374151&color=fff&size=24`;
+                      }}
+                    />
+                  ))}
+                  {projectBasicInfo.team.length > 3 && (
+                    <span className="w-6 h-6 rounded-full ring-2 ring-[#141414] bg-slate-700 grid place-items-center text-[10px] text-slate-200">
+                      +{projectBasicInfo.team.length - 3}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs text-slate-400 ml-2">
+                  {projectBasicInfo.team.length} member
+                  {projectBasicInfo.team.length !== 1 && "s"}
+                </span>
+              </div>
 
-            {/* Media links */}
-            <div className="flex gap-3 mb-4">
-              {projectBasicInfo.demoVideoUrl && (
-                <MediaLink
-                  icon={<Play className="h-3 w-3" />}
-                  label="Demo"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(projectBasicInfo.demoVideoUrl, '_blank');
-                  }}
-                />
-              )}
-              {projectBasicInfo.pitchDeckUrl && (
-                <MediaLink
-                  icon={<FileText className="h-3 w-3" />}
-                  label="Pitch"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(projectBasicInfo.pitchDeckUrl, '_blank');
-                  }}
-                />
-              )}
-              {projectBasicInfo.websiteUrl && (
-                <MediaLink
-                  icon={<Target className="h-3 w-3" />}
-                  label="Website"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(projectBasicInfo.websiteUrl, '_blank');
-                  }}
-                />
-              )}
-            </div>
+              {/* media links */}
+              <div className="flex gap-3">
+                {projectBasicInfo.demoVideoUrl && (
+                  <MediaLink
+                    icon={<Play className="h-3 w-3" />}
+                    label="Demo"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(projectBasicInfo.demoVideoUrl, "_blank");
+                    }}
+                  />
+                )}
+                {projectBasicInfo.pitchDeckUrl && (
+                  <MediaLink
+                    icon={<FileText className="h-3 w-3" />}
+                    label="Pitch"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(projectBasicInfo.pitchDeckUrl, "_blank");
+                    }}
+                  />
+                )}
+                {projectBasicInfo.websiteUrl && (
+                  <MediaLink
+                    icon={<Target className="h-3 w-3" />}
+                    label="Website"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(projectBasicInfo.websiteUrl, "_blank");
+                    }}
+                  />
+                )}
+              </div>
 
-            {/* meta rows */}
-            <div className="flex flex-col gap-2">
-              <Row
-                label="Project contract"
-                value={
-                  <AddressLink
-                    address={onChainData.address}
-                    chainId={projectBasicInfo.chainId}
-                  />
-                }
-              />
-              <Row
-                label="Creator"
-                value={
-                  <AddressLink
-                    address={onChainData.creator}
-                    chainId={projectBasicInfo.chainId}
-                  />
-                }
-              />
-              <Row
-                label="Socials"
-                value={<SocialsList socials={projectBasicInfo.socials} />}
-              />
+              {/* meta rows */}
+              <div className="flex flex-col gap-2">
+                <Row
+                  label="Project contract"
+                  value={
+                    <AddressLink
+                      address={onChainData.address}
+                      chainId={projectBasicInfo.chainId}
+                    />
+                  }
+                />
+                <Row
+                  label="Creator"
+                  value={
+                    <AddressLink
+                      address={onChainData.creator}
+                      chainId={projectBasicInfo.chainId}
+                    />
+                  }
+                />
+                <Row
+                  label="Socials"
+                  value={<SocialsList socials={projectBasicInfo.socials} />}
+                />
+              </div>
             </div>
           </article>
         ))}
@@ -364,5 +358,22 @@ function MediaLink({
       {icon}
       {label}
     </button>
+  );
+}
+
+function StatBlock({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <div>
+      <div className="text-xs text-slate-400">{label}</div>
+      <div className="text-base md:text-lg font-semibold text-slate-100">
+        {value}
+      </div>
+    </div>
   );
 }
