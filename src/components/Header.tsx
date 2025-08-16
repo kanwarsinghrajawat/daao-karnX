@@ -14,16 +14,16 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative z-50 mt-6 max-w-sm mx-auto sm:max-w-7xl">
-      <div className="rounded-2xl bg-[#141414] ring-1 ring-slate-800/70 shadow-sm px-4 md:px-6 py-3">
+    <header className="relative z-50 md:mt-6 max-w-sm mx-auto sm:max-w-7xl">
+      <div className="rounded-2xl md:bg-[#141414] md:ring-1 md:ring-slate-800/70 shadow-sm px-4 md:px-6 py-3">
         <div className="mx-auto max-w-7xl flex items-center justify-between">
           {/* logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/robo-logo.png"
               alt="Logo"
-              width={140}
-              height={140}
+              width={60}
+              height={100}
               className="h-16 w-auto object-contain"
             />
           </Link>

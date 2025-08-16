@@ -1,6 +1,10 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-export function CustomConnectButton() {
+type Props = {
+  className?: string;
+};
+
+export function CustomConnectButton({ className }: Props) {
   return (
     <ConnectButton.Custom>
       {({
@@ -24,7 +28,7 @@ export function CustomConnectButton() {
               !ready
                 ? "opacity-0 pointer-events-none select-none"
                 : "opacity-100"
-            }`}
+            } ${className || ""}`}
           >
             {!connected ? (
               <button
