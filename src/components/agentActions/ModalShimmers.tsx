@@ -1,6 +1,7 @@
 "use client";
 
 import { ShimmerSkeleton } from "@/components/ui/Shimmer";
+import { CustomConnectButton } from "../CustomConnectButton";
 
 export function AgentActionModalShimmer() {
   return (
@@ -55,7 +56,9 @@ export function AgentActionModalShimmer() {
       </div>
 
       {/* Primary Button */}
-      <ShimmerSkeleton className="w-full h-11 rounded-lg" />
+      <div className="w-full h-11 rounded-lg">
+        <CustomConnectButton className="w-full" />
+      </div>
     </div>
   );
 }
