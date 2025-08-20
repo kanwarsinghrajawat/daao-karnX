@@ -69,7 +69,7 @@ export default function SelectTokenCard({
       <div className="flex justify-between items-start mb-3">
         <div className="flex align-end flex-col justify-end">
           {isLoading ? (
-            <div className="w-36 h-10 bg-stroke animate-pulse rounded-md text-black" />
+            <div className="w-36 h-10 bg-stroke animate-pulse text-black" />
           ) : (
             <input
               type="text"
@@ -116,7 +116,7 @@ export default function SelectTokenCard({
           <div className="w-full flex justify-end">
             <button
               onClick={onTokenClick}
-              className={`flex items-center cursor-pointer gap-2 px-3 py-2 font-bold  w-fit bg-none text-gray-400 rounded-full border-form-outline border
+              className={`flex items-center cursor-pointer gap-2 px-3 py-2 font-bold  w-fit bg-none text-gray-400  border-form-outline border
             ${token?.symbol || token?.logo ? "bg-none" : "bg-none"}
        
             duration-300`}
@@ -127,7 +127,7 @@ export default function SelectTokenCard({
                   alt={`${token.symbol} logo`}
                   width={20}
                   height={20}
-                  className="w-5 h-5 rounded-full"
+                  className="w-5 h-5 "
                 />
               )}
               {token?.symbol || "Select Token"}

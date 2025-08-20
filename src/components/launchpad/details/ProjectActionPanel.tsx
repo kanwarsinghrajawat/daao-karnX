@@ -1,7 +1,6 @@
 "use client";
 import ClaimTokensModal from "@/components/projectActions/ClaimTokensModal";
 import FundraisingModal from "@/components/projectActions/FundraisingModal";
-import { ProjectActionModalShimmer } from "@/components/projectActions/ModalShimmers";
 import RedeemModal from "@/components/projectActions/RedeemModal";
 import SwapModal from "@/components/projectActions/SwapModal";
 // import { CustomConnectButton } from "@/components/CustomConnectButton";
@@ -66,13 +65,6 @@ const ProjectActionPanel = ({
           projectOnChainData={projectOnChainData}
           refreshOnChainData={refreshOnChainData}
         />
-      )}
-      {showClaimModalShimmer && (
-        <div className="flex flex-col gap-4">
-          <ProjectActionModalShimmer />
-
-          {/* <CustomConnectButton /> */}
-        </div>
       )}
 
       {showClaimModal && (

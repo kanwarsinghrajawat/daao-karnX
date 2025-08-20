@@ -45,7 +45,6 @@ export default function Header() {
                           ? "text-slate-100"
                           : "text-slate-300 hover:text-slate-100",
                       ].join(" ")}
-                      target="_blank"
                     >
                       {name}
                     </Link>
@@ -128,7 +127,6 @@ export default function Header() {
                           ? "bg-[#1b1b1b] text-slate-100 ring-1 ring-slate-800/70"
                           : "text-slate-300 hover:text-slate-100 hover:bg-[#1a1a1a]",
                       ].join(" ")}
-                      target="_blank"
                     >
                       {name}
                     </Link>

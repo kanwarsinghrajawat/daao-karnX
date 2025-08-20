@@ -30,8 +30,8 @@ export default function ProductBanner() {
               Genesis Point
             </span>{" "}
             pledges. Token allocations are decided in a 24-hour point auction.
-            If the goal isn&apos;t met, no tokens will be issued and all{" "}
-            <span className="font-semibold">$karnX</span> and points will be
+            If the goal isn&apos;t met, no tokens will be issued and all
+            <span className="font-semibold">$karnX</span> points will be
             returned in full.
           </p>
         </div>

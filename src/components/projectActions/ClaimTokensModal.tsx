@@ -7,6 +7,7 @@ import { getTxnStateText } from "@/utils/txn";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import Text from "../ui/Text";
+import ConnectWalletCard from "./ConnectWalletCard";
 
 interface ClaimTokensModalProps {
   projectOnChainData: ProjectOnChainData;
@@ -61,55 +62,64 @@ export default function ClaimTokensModal({
       </div>
 
       {/* Contribution Details Card */}
-      <div className="mb-5 p-5 bg-[#171717] rounded-2xl ring-1 ring-slate-800/70">
-        <Text type="p" className="font-bold text-base text-slate-100 mb-4">
-          Your Contribution Details
-        </Text>
 
-        <div className="flex justify-between items-center mb-3">
-          <Text type="span" className="text-sm text-slate-300 font-medium">
-            Claim Status
-          </Text>
-          <Text
-            type="span"
-            className={`text-sm font-medium ${
-              hasClaimed ? "text-emerald-400" : "text-red-400"
-            }`}
-          >
-            {hasClaimed ? "Claimed" : "Pending"}
-          </Text>
-        </div>
+      {account ? (
+        <div>
+          {" "}
+          <div className="my-5 p-5 bg-[#171717] rounded-2xl ring-1 ring-slate-800/70">
+            <Text type="p" className="font-bold text-base text-slate-100 mb-4">
+              Your Contribution Details
+            </Text>
 
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <Text type="span" className="text-sm text-slate-300 font-medium">
-              Amount Contributed:
-            </Text>
-            <Text type="span" className="text-sm text-slate-400 font-mono">
-              {truncateNumber(
-                formatUnits(contributionAmount, underlyingAsset.decimals)
-              )}{" "}
-              {underlyingAsset.symbol}
-            </Text>
+            <div className="flex justify-between items-center mb-3">
+              <Text type="span" className="text-sm text-slate-300 font-medium">
+                Claim Status
+              </Text>
+              <Text
+                type="span"
+                className={`text-sm font-medium ${
+                  hasClaimed ? "text-emerald-400" : "text-red-400"
+                }`}
+              >
+                {hasClaimed ? "Claimed" : "Pending"}
+              </Text>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <Text
+                  type="span"
+                  className="text-sm text-slate-300 font-medium"
+                >
+                  Amount Contributed:
+                </Text>
+                <Text type="span" className="text-sm text-slate-400 font-mono">
+                  {truncateNumber(
+                    formatUnits(contributionAmount, underlyingAsset.decimals)
+                  )}{" "}
+                  {underlyingAsset.symbol}
+                </Text>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <Text
+                  type="span"
+                  className="text-sm text-slate-300 font-medium"
+                >
+                  Tokens Allocated:
+                </Text>
+                <Text type="span" className="text-sm text-slate-400 font-mono">
+                  {truncateNumber(formatUnits(tokenAllocation, decimals))}{" "}
+                  {projectOnChainData.symbol}
+                </Text>
+              </div>
+            </div>
           </div>
-
-          <div className="flex justify-between items-center">
-            <Text type="span" className="text-sm text-slate-300 font-medium">
-              Tokens Allocated:
-            </Text>
-            <Text type="span" className="text-sm text-slate-400 font-mono">
-              {truncateNumber(formatUnits(tokenAllocation, decimals))}{" "}
-              {projectOnChainData.symbol}
-            </Text>
-          </div>
-        </div>
-      </div>
-
-      {/* Claim Button */}
-      <button
-        onClick={handleClaim}
-        disabled={isClaimDisabled}
-        className={`
+          {/* Claim Button */}
+          <button
+            onClick={handleClaim}
+            disabled={isClaimDisabled}
+            className={`
         w-full rounded-xl
         bg-emerald-600 hover:bg-emerald-500
         text-white font-semibold text-base
@@ -118,28 +128,31 @@ export default function ClaimTokensModal({
         transition-all duration-300
         active:scale-[0.97]
       `}
-      >
-        {hasClaimed
-          ? "You've Already Claimed"
-          : tokenAllocation === 0n
-            ? "Claim Token"
-            : getTxnStateText(
-                txnState,
-                `Claim ${projectOnChainData.symbol} Tokens`
-              )}
-      </button>
-
-      {/* No Contribution Message */}
-      {contributionAmount === 0n && (
-        <div className="mt-4 p-4 bg-[#1b1b1b] rounded-xl ring-1 ring-slate-800/70">
-          <Text type="span" className="text-sm font-medium text-slate-300">
-            No Contribution Found
-          </Text>
-          <Text type="span" className="text-xs text-slate-400 block mt-1">
-            You haven&apos;t contributed to this project&apos;s fundraising, so
-            there are no tokens to claim.
-          </Text>
+          >
+            {hasClaimed
+              ? "You've Already Claimed"
+              : tokenAllocation === 0n
+                ? "Claim Token"
+                : getTxnStateText(
+                    txnState,
+                    `Claim ${projectOnChainData.symbol} Tokens`
+                  )}
+          </button>
+          {/* No Contribution Message */}
+          {contributionAmount === 0n && (
+            <div className="mt-4 p-4 bg-[#1b1b1b] rounded-xl ring-1 ring-slate-800/70">
+              <Text type="span" className="text-sm font-medium text-slate-300">
+                No Contribution Found
+              </Text>
+              <Text type="span" className="text-xs text-slate-400 block mt-1">
+                You haven&apos;t contributed to this project&apos;s fundraising,
+                so there are no tokens to claim.
+              </Text>
+            </div>
+          )}
         </div>
+      ) : (
+        <ConnectWalletCard word={"claim"} />
       )}
     </div>
   );

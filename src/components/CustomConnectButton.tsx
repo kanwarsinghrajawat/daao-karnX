@@ -1,10 +1,13 @@
+// CustomConnectButton.tsx
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-type Props = {
-  className?: string;
+type CustomConnectButtonProps = {
+  fullWidth?: boolean;
 };
 
-export function CustomConnectButton({ className }: Props) {
+export function CustomConnectButton({
+  fullWidth = false,
+}: CustomConnectButtonProps) {
   return (
     <ConnectButton.Custom>
       {({
@@ -28,24 +31,35 @@ export function CustomConnectButton({ className }: Props) {
               !ready
                 ? "opacity-0 pointer-events-none select-none"
                 : "opacity-100"
-            } ${className || ""}`}
+            }`}
           >
             {!connected ? (
               <button
                 onClick={openConnectModal}
-                className="px-4 py-2.5 rounded-lg bg-[#141414] text-slate-200 font-mono text-sm ring-1 ring-slate-800/70 shadow-sm transition-all duration-300 hover:ring-orange-400/50 hover:shadow-[0_0_10px_rgba(251,146,60,0.15)] hover:scale-[1.02] active:scale-[0.98]"
+                className={`
+                  bg-black text-white text-sm py-3 font-medium rounded-xl
+                  transition-all duration-300 ease-in-out 
+                  hover:scale-[1.02] active:scale-[0.98]
+                  ${fullWidth ? "w-full" : "px-4"}
+                `}
               >
                 Connect Wallet
               </button>
             ) : (
-              <div className="flex items-stretch gap-2">
+              <div
+                className={`flex items-stretch gap-2 ${fullWidth ? "w-full" : ""}`}
+              >
                 <button
                   onClick={openAccountModal}
-                  className="px-4 py-2.5 rounded-lg bg-[#141414] text-slate-200 font-mono text-xs ring-1 ring-slate-800/70 shadow-sm flex items-center transition-all duration-300 hover:ring-orange-400/50 hover:shadow-[0_0_10px_rgba(251,146,60,0.15)] hover:scale-[1.02] active:scale-[0.98]"
+                  className={`
+                    bg-black text-white font-mono text-xs py-3 flex items-center justify-center
+                    transition-all duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98]
+                    ${fullWidth ? "w-full" : "px-4"}
+                  `}
                 >
                   <span className="truncate">{account.displayName}</span>
                   {account.displayBalance && (
-                    <span className="ml-2 font-sans text-slate-400">
+                    <span className="ml-2 font-sans">
                       • {account.displayBalance}
                     </span>
                   )}

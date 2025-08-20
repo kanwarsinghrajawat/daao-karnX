@@ -15,6 +15,7 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import Text from "../ui/Text";
 import { SettingsModal } from "./SettingsModal";
+import { CustomConnectButton } from "../CustomConnectButton";
 
 interface SwapModalProps {
   token0: Token;
@@ -193,7 +194,7 @@ export default function SwapModal({
       </div>
 
       {/* From Card */}
-      <div className="bg-[#171717] rounded-t-2xl ring-1 ring-slate-800/70 overflow-hidden">
+      <div className="bg-[#171717] ring-1 ring-slate-800/70 overflow-hidden">
         <SelectTokenCard
           title="From"
           token={srcToken}
@@ -209,7 +210,6 @@ export default function SwapModal({
         />
       </div>
 
-      {/* Toggle */}
       <div className="relative z-10 flex items-center justify-center my-[-12px]">
         <div className="w-full flex items-center relative group">
           <div className="border-t border-slate-800 w-1/2" />
@@ -217,7 +217,7 @@ export default function SwapModal({
             <button
               onClick={handleToggle}
               aria-label="Switch tokens"
-              className="bg-[#1f1f1f] p-2 rounded-full ring-1 ring-slate-800/70 hover:bg-[#242424] transition-colors"
+              className="bg-[#1f1f1f] p-2  ring-1 ring-slate-800/70 hover:bg-[#242424] transition-colors"
             >
               <Image
                 src="/transaction.svg"
@@ -235,7 +235,7 @@ export default function SwapModal({
       </div>
 
       {/* To Card */}
-      <div className="bg-[#171717] rounded-b-2xl ring-1 ring-slate-800/70 overflow-hidden">
+      <div className="bg-[#171717] ring-1 ring-slate-800/70 overflow-hidden">
         <SelectTokenCard
           title="To"
           token={destToken}
@@ -252,7 +252,7 @@ export default function SwapModal({
       </div>
 
       {/* Slippage Info */}
-      <div className="mt-6 p-4 bg-[#1b1b1b] rounded-xl ring-1 ring-slate-800/70 flex justify-between items-center">
+      <div className="mt-6 p-4 bg-[#1b1b1b]  ring-1 ring-slate-800/70 flex justify-between items-center">
         <Text type="p" className="text-slate-300 text-sm font-medium">
           Slippage Tolerance
         </Text>
@@ -261,12 +261,12 @@ export default function SwapModal({
         </Text>
       </div>
 
-      {/* Swap Button */}
-      <button
-        onClick={handleSwap}
-        disabled={isButtonDisabled}
-        className={`
-        w-full rounded-xl
+      {account ? (
+        <button
+          onClick={handleSwap}
+          disabled={isButtonDisabled}
+          className={`
+        w-full 
         bg-emerald-600 hover:bg-emerald-500
         text-white font-semibold text-base
         px-6 py-4 mt-6
@@ -274,12 +274,18 @@ export default function SwapModal({
         transition-all duration-300
         active:scale-[0.97]
       `}
-      >
-        {getTxnStateText(
-          txnState,
-          `Swap ${srcToken.symbol} to ${destToken.symbol}`
-        )}
-      </button>
+        >
+          {getTxnStateText(
+            txnState,
+            `Swap ${srcToken.symbol} to ${destToken.symbol}`
+          )}
+        </button>
+      ) : (
+        <div className="my-4">
+          {" "}
+          <CustomConnectButton fullWidth />
+        </div>
+      )}
     </div>
   );
 }
