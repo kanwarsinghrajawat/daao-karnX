@@ -3,7 +3,6 @@ import ClaimTokensModal from "@/components/projectActions/ClaimTokensModal";
 import FundraisingModal from "@/components/projectActions/FundraisingModal";
 import RedeemModal from "@/components/projectActions/RedeemModal";
 import SwapModal from "@/components/projectActions/SwapModal";
-// import { CustomConnectButton } from "@/components/CustomConnectButton";
 import {
   ProjectOnChainData,
   ProjectPhase,

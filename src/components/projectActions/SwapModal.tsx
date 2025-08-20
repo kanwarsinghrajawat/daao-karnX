@@ -15,7 +15,6 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import Text from "../ui/Text";
 import { SettingsModal } from "./SettingsModal";
-import { CustomConnectButton } from "../CustomConnectButton";
 
 interface SwapModalProps {
   token0: Token;
@@ -261,11 +260,10 @@ export default function SwapModal({
         </Text>
       </div>
 
-      {account ? (
-        <button
-          onClick={handleSwap}
-          disabled={isButtonDisabled}
-          className={`
+      <button
+        onClick={handleSwap}
+        disabled={isButtonDisabled}
+        className={`
         w-full 
         bg-emerald-600 hover:bg-emerald-500
         text-white font-semibold text-base
@@ -274,18 +272,12 @@ export default function SwapModal({
         transition-all duration-300
         active:scale-[0.97]
       `}
-        >
-          {getTxnStateText(
-            txnState,
-            `Swap ${srcToken.symbol} to ${destToken.symbol}`
-          )}
-        </button>
-      ) : (
-        <div className="my-4">
-          {" "}
-          <CustomConnectButton fullWidth />
-        </div>
-      )}
+      >
+        {getTxnStateText(
+          txnState,
+          `Swap ${srcToken.symbol} to ${destToken.symbol}`
+        )}
+      </button>
     </div>
   );
 }

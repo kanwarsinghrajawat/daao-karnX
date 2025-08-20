@@ -12,7 +12,6 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 
 import Text from "../ui/Text";
-import ConnectWalletCard from "./ConnectWalletCard";
 
 interface RedeemProps {
   srcToken: Token;
@@ -124,42 +123,41 @@ export default function RedeemModal({
         </Text>
       </div>
 
-      {account ? (
-        <div>
-          <div className="relative bg-[#171717]  ring-1 ring-slate-800/70 overflow-hidden">
-            <SelectTokenCard
-              title="From"
-              token={srcToken}
-              amount={srcAmount}
-              isDisabled
-              setAmount={(val: string) =>
-                setSrcAmount(isNaN(Number(val)) ? "" : val)
-              }
-              onTokenClick={() => {}}
-              balance={srcBalance}
-              showPercentageButtons={true}
-              showDropdown={false}
-            />
+      <div>
+        <div className="relative bg-[#171717]  ring-1 ring-slate-800/70 overflow-hidden">
+          <SelectTokenCard
+            title="From"
+            token={srcToken}
+            amount={srcAmount}
+            isDisabled
+            setAmount={(val: string) =>
+              setSrcAmount(isNaN(Number(val)) ? "" : val)
+            }
+            onTokenClick={() => {}}
+            balance={srcBalance}
+            showPercentageButtons={true}
+            showDropdown={false}
+          />
 
-            <SelectTokenCard
-              title="To"
-              token={destToken}
-              amount={destAmount}
-              setAmount={() => {}}
-              isDisabled
-              onTokenClick={() => {}}
-              balance={destBalance}
-              showPercentageButtons={false}
-              isLoading={quoteLoading}
-              showDropdown={false}
-              hideTopBorder
-            />
-          </div>
+          <SelectTokenCard
+            title="To"
+            token={destToken}
+            amount={destAmount}
+            setAmount={() => {}}
+            isDisabled
+            onTokenClick={() => {}}
+            balance={destBalance}
+            showPercentageButtons={false}
+            isLoading={quoteLoading}
+            showDropdown={false}
+            hideTopBorder
+          />
+        </div>
 
-          <button
-            onClick={handleRedeem}
-            disabled={isButtonDisabled}
-            className={`
+        <button
+          onClick={handleRedeem}
+          disabled={isButtonDisabled}
+          className={`
         w-full 
         bg-emerald-600 hover:bg-emerald-500
         text-white font-semibold text-base
@@ -168,16 +166,13 @@ export default function RedeemModal({
         transition-all duration-300
         active:scale-[0.97]
       `}
-          >
-            {getTxnStateText(
-              txnState,
-              `Redeem ${destToken.symbol} for ${srcToken.symbol}`
-            )}
-          </button>
-        </div>
-      ) : (
-        <ConnectWalletCard word={"redeem"} />
-      )}
+        >
+          {getTxnStateText(
+            txnState,
+            `Redeem ${destToken.symbol} for ${srcToken.symbol}`
+          )}
+        </button>
+      </div>
     </div>
   );
 }

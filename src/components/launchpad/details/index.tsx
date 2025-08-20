@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import ProjectActionPanel from "./ProjectActionPanel";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectDetailsPanel } from "./projectDetailsPanel";
-// import { useAccount } from "wagmi";
+import { useAccount } from "wagmi";
+import ConnectWalletCard from "@/components/projectActions/ConnectWalletCard";
 
 interface ProjectDetailsPageProps {
   projectBasicInfo: DeployedProjectStaticInfo;
@@ -24,7 +25,8 @@ const ProjectDetailsPage = ({
   const [currentOnChainData, setCurrentOnChainData] =
     useState<ProjectOnChainData>(projectOnChainData);
   const [activeTab, setActiveTab] = useState<"info" | "trade">("info");
-  // const { address: account } = useAccount();
+
+  const { address: account } = useAccount();
 
   const {
     userContributionDetails,
@@ -77,14 +79,18 @@ const ProjectDetailsPage = ({
       </div>
 
       <div className="hidden lg:block flex-1 max-w-sm md:lg:flex-[2]">
-        <ProjectActionPanel
-          projectBasicInfo={projectBasicInfo}
-          projectOnChainData={currentOnChainData}
-          refreshOnChainData={refreshOnChainData}
-          userContributionDetails={userContributionDetails}
-          refreshUserContributionDetails={refreshUserContributionDetails}
-          isContributionDetailsLoading={isUserContributionDetailsLoading}
-        />
+        {account ? (
+          <ProjectActionPanel
+            projectBasicInfo={projectBasicInfo}
+            projectOnChainData={currentOnChainData}
+            refreshOnChainData={refreshOnChainData}
+            userContributionDetails={userContributionDetails}
+            refreshUserContributionDetails={refreshUserContributionDetails}
+            isContributionDetailsLoading={isUserContributionDetailsLoading}
+          />
+        ) : (
+          <ConnectWalletCard />
+        )}
       </div>
 
       <div className="lg:hidden">

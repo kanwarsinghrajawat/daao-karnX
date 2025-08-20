@@ -2,11 +2,8 @@
 import Image from "next/image";
 import Text from "../ui/Text";
 import { CustomConnectButton } from "../CustomConnectButton";
-type ConnectWalletCardProps = {
-  word: string;
-};
 
-const ConnectWalletCard = ({ word }: ConnectWalletCardProps) => {
+const ConnectWalletCard = () => {
   return (
     <div className="border border-divider p-6 bg-[#141414] w-full max-w-md mx-auto">
       <div className="flex justify-center mb-4">
@@ -23,9 +20,7 @@ const ConnectWalletCard = ({ word }: ConnectWalletCardProps) => {
       >
         Connect Wallet
       </Text>
-      <Text type="p" className="text-center text-text-secondary text-sm mt-2">
-        Connect your wallet to {word}
-      </Text>
+
       <div className="mt-4"></div>
       <CustomConnectButton fullWidth />
     </div>
