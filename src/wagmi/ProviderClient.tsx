@@ -9,18 +9,6 @@ import { cookieToInitialState, WagmiProvider } from "wagmi";
 import { getWagmiConfig } from ".";
 import { initializeStore } from "../../store";
 
-// Create a stable QueryClient instance outside the component
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000, // 1 minute
-      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
 interface ProviderClientProps {
   wagmiCookie: string | null;
   children: ReactNode;
@@ -32,6 +20,7 @@ const ProviderClient = ({ wagmiCookie, children }: ProviderClientProps) => {
     () => cookieToInitialState(wagmiConfig, wagmiCookie),
     [wagmiConfig, wagmiCookie]
   );
+  const queryClient = useMemo(() => new QueryClient(), []); // Fix: Move to useMemo
 
   return (
     <ReduxProvider store={initializeStore()}>
