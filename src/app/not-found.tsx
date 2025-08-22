@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowLeft, Home, Search } from "lucide-react";
+import { Home, Search } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -66,7 +66,7 @@ export default function NotFound() {
               Page Not Found
             </h2>
             <p className="text-slate-300 text-lg leading-relaxed max-w-md mx-auto">
-              The page you're looking for doesn't exist or has been moved to
+              The page you are looking for does not exist or has been moved to
               another dimension.
             </p>
           </motion.div>
