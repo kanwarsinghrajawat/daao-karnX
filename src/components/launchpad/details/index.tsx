@@ -163,18 +163,22 @@ const ProjectDetailsPage = ({
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.3 }}
               >
-                <ProjectActionPanel
-                  projectBasicInfo={projectBasicInfo}
-                  projectOnChainData={currentOnChainData}
-                  refreshOnChainData={refreshOnChainData}
-                  userContributionDetails={userContributionDetails}
-                  refreshUserContributionDetails={
-                    refreshUserContributionDetails
-                  }
-                  isContributionDetailsLoading={
-                    isUserContributionDetailsLoading
-                  }
-                />
+                {account ? (
+                  <ProjectActionPanel
+                    projectBasicInfo={projectBasicInfo}
+                    projectOnChainData={currentOnChainData}
+                    refreshOnChainData={refreshOnChainData}
+                    userContributionDetails={userContributionDetails}
+                    refreshUserContributionDetails={
+                      refreshUserContributionDetails
+                    }
+                    isContributionDetailsLoading={
+                      isUserContributionDetailsLoading
+                    }
+                  />
+                ) : (
+                  <ConnectWalletCard />
+                )}
               </motion.div>
             )}
           </AnimatePresence>
